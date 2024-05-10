@@ -16,11 +16,12 @@
 
  # 해야 할 일
  - 김준형
-    - ongame.c 에서 입력값 판단하는 함수 작성
+    - ongame.c 에서 checkCorrect, checkRightWord 함수 작성
     - main.c 에서 createAnswer함수 작성
  - 장현호 
     - draw.c에 모음 추가
     - onStart.c에 처음화면 출력(onstart함수에 작성)
  - 조재용
     - 만들어진 함수 가지고 main.c 편집
+    - 좀 더 가볍게 조절(완)
     - onstart에서 입력받는 기능 추가
