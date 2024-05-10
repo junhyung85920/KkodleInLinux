@@ -354,9 +354,43 @@ void changeColor(Color check[], Word input[], int round){
         else{
             printWord(input[i],round,i);
         }
-        if(check[i]!=BLACK)
-            usleep(500000);
+        usleep(500000);
     }
     flushinp();
 }
 
+void deleteRound(int round){
+    for(int i=0;i<6;i++){
+        deleteWord(round,i);
+    }
+}
+
+int isWord(char c){
+    switch(c){
+        case 'r': case 'R': return 1;
+        case 's': case 'S': return 1;
+        case 'e': case 'E': return 1;
+        case 'f': case 'F': return 1;
+        case 'a': case 'A': return 1;
+        case 'q': case 'Q': return 1;
+        case 't': case 'T': return 1;
+        case 'd': case 'D': return 1;
+        case 'w': case 'W': return 1;
+        case 'c': case 'C': return 1;
+        case 'z': case 'Z': return 1;
+        case 'x': case 'X': return 1;
+        case 'v': case 'V': return 1;
+        case 'g': case 'G': return 1;
+        case 'k': case 'K': return 1;
+        case 'i': case 'I': return 1;
+        case 'j': case 'J': return 1;
+        case 'u': case 'U': return 1;
+        case 'h': case 'H': return 1;
+        case 'y': case 'Y': return 1;
+        case 'n': case 'N': return 1;
+        case 'b': case 'B': return 1;
+        case 'm': case 'M': return 1;
+        case 'l': case 'L': return 1;
+        default: return 0;
+    }
+}

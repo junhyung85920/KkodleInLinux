@@ -26,4 +26,7 @@ Word inputWord(char c);    // 입력된 문자를 word로 변환
 
 void printMainBackground(); // 백그라운드 그리기
 
+void deleteRound(int round);
+
+int isWord(char c);
 

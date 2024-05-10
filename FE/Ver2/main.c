@@ -4,6 +4,7 @@
 #include <ncursesw/curses.h>
 #include <unistd.h>
 #include "gamelib.h"
+#include "errlib.h"
 
 //usage : gcc -o main main.c draw.c ongame.c err.c -lncursesw
 //zip : zip pro.zip *
@@ -16,6 +17,7 @@ Word* createAnswer();
 int main() {
     init();
     int m = 1;
+    int result = 0;
 
     Word answer[6] = {R, S, E, F, A, Q};
     //Word answer[6] = createAnswer();
@@ -29,8 +31,7 @@ int main() {
             //onHelp();
         }
         else{   //game
-            int result = onGame(answer);
-
+            result = onGame(answer);
             if(result){
                 move(48,30);
                 printw("%d",result);
@@ -40,6 +41,8 @@ int main() {
                 //onSuccess(result);
             }
             else{
+                printError("fail");
+                break;
                 //onFail(answer);
             }
         }
