@@ -1,20 +1,24 @@
 #include <locale.h>
 #include <wchar.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <ncursesw/curses.h>
 #include <unistd.h>
 #include "drawlib.h"
 #include "errlib.h"
 
+char getWord(Word c);
 //이거 함수 두개 합칠 수 있을듯여?
-Color checkColor(Word input[], Word answer[]);
-int checkCorrect(Word input[], Word answer[]);
+// chckRightWord()에 checkColor() 구현함
+//Color checkColor(Word input[], Word answer[]);
+int checkCorrect(Color after[]);
 int checkRightWord(Word input[], Word answer[], Color after[]);
 
 int onGame(Word answer[6]){
     printMainBackground();
 
-    Color after[6] = {RED,RED,GREEN,RED,YELLOW,RED};
+    Color after[6] = {RED,RED,RED,RED,RED,RED};
     int round = 0;
     int count = 0;
     char c;
@@ -74,43 +78,48 @@ int onGame(Word answer[6]){
 
 int checkRightWord(Word input[], Word answer[], Color after[]){   //check if the word exists
 
-    FILE *fp = fopen("filetered_data.csv", "r");
+    FILE *fp = fopen("filtered_data.csv", "r");
     if (!fp) {
-        printf("Failed to open the file\n");
+        printf("Failed to open the file(chk)\n");
         return 1;
     }
 
     char buffer[1024];
-    int col_index = 1;  // column in which splitted string is stored
+    int col_idx = 2;  // column in which splitted string(alphabet) is stored
+    int cur_idx = 0;
 
+    // compare input with anwer(alphabet version) in column 3
     while (fgets(buffer, 1024, fp)) {
         // Trim newline character if present
         buffer[strcspn(buffer, "\n")] = 0;
-
+        cur_idx = 0;
         char *token = strtok(buffer, ",");
-        int cur_index = 0;
         while (token) {
-            if (current_index == column_index) {
-                if(!strcmp(input, token)){
-                    // 색상 배열 변환
+            if (cur_idx == col_idx) {
+                if(cmp(input, token)){  // if input is in the file
+                    // compare and set color array "after"
                     for(int i=0;i<6;i++){
                         for(int j=0;j<6;j++){
-                            if(input[i]==answer[j]){
+                            if(getWord(input[i]) == getWord(answer[j])){
                                 if(i==j){
                                     after[i] = GREEN;
+                                    break;
                                 }
                                 else{
                                     after[i] = YELLOW;
                                 }
+                                
                             }
+                            
                         }
                     }
                     fclose(fp);
                     return 1;
                 }
+                
             }
             token = strtok(NULL, ",");
-            current_index++;
+            cur_idx++;
         }
     }
 
@@ -119,11 +128,54 @@ int checkRightWord(Word input[], Word answer[], Color after[]){   //check if the
 }
 
 int checkCorrect(Color after[]){  //check if the word is correct
+    // if all green, return 1 (correct)
     for(int i=0;i<6;i++){
         if(after[i] != GREEN){
-            return 1;
+            return 0;
         }
     }
-    return 0;
+    //printf("correct!\n");
+    return 1;
+    
+}
+
+int cmp(Word input[], char *token){
+    for(int i=0;i<6;i++){
+        if(getWord(input[i]) != token[i]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+char getWord(Word c){
+    
+    switch(c){
+        case R: return 'R';
+        case S: return 'S';
+        case E: return 'E';
+        case F: return 'F';
+        case A: return 'A';
+        case Q: return 'Q';
+        case T: return 'T';
+        case D: return 'D';
+        case W: return 'W';
+        case C: return 'C';
+        case Z: return 'Z';
+        case X: return 'X';
+        case V: return 'V';
+        case G: return 'G';
+        case K: return 'K';
+        case I: return 'I';
+        case J: return 'J';
+        case U: return 'U';
+        case H: return 'H';
+        case Y: return 'Y';
+        case N: return 'N';
+        case B: return 'B';
+        case M: return 'M';
+        case L: return 'L';
+        default: return 0;
+    }
     
 }

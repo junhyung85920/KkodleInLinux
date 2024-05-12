@@ -22,8 +22,11 @@ int main() {
     int m = 1;
     int result = 0;
 
-    //Word answer[6] = {R, S, E, F, A, Q};
-    Word answer[6] = createAnswer();
+    Word answer[6] = {E, K, F, L, A, L};
+    //Word* answer = createAnswer();
+    for(int i=0;i<6;i++){
+        printw("%c",getWord(answer[i]));
+    }
 
     while(1){
         m = onStart();
@@ -88,29 +91,32 @@ Word* createAnswer(){
     answer_idx = (int)rand()%file_size + 1;
 
 
-    FILE *fp = fopen("filetered_data.csv", "r");
+    FILE *fp = fopen("filtered_data.csv", "r");
     if (!fp) {
-        printf("Failed to open the file\n");
+        printf("Failed to open the file(ans)\n");
         return 1;
     }
 
     char buffer[1024];
-    int col_index = 1;  // column in which splitted string is stored
+    int col_idx = 2;  // column in which splitted string is stored
 
     while (fgets(buffer, 1024, fp)) {
         // Trim newline character if present
         buffer[strcspn(buffer, "\n")] = 0;
 
         char *token = strtok(buffer, ",");
-        int cur_index = 0;
+        int cur_idx = 0;
         if(idx == answer_idx){
             while (token) {
-                if (current_index == column_index) {
-                    strcpy(answer, token);
+                if (cur_idx == col_idx) {
+                    printf("here\n");
+                    for(int i=0;i<6;i++){
+                        answer[i] = inputWord(token[i]);
+                    }
                     break;
                 }
                 token = strtok(NULL, ",");
-                current_index++;
+                cur_idx++;
             }
             break;
         }
@@ -127,3 +133,4 @@ Word* createAnswer(){
 
     return answer;
 }
+

@@ -29,3 +29,5 @@ void printMainBackground(); // 백그라운드 그리기
 void deleteRound(int round);
 
 int isWord(char c);
+
+char getWord(Word c);
