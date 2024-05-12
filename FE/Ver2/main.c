@@ -23,14 +23,9 @@ int main() {
     int m = 1;
     int result = 0;
 
-    Word answer[6] = {E, K, F, L, A, L};
-    //Word* answer = createAnswer();
-
-    /*
-    for(int i=0;i<6;i++){
-        printw("%c",getWord(answer[i]));
-    }
-    */
+    //Word answer[6] = {E, K, F, L, A, L};
+    Word* answer = createAnswer();
+    
 
     while(1){
         m = onStart();
@@ -91,30 +86,26 @@ Word* createAnswer(){
     int answer_idx; // answer row index
     int cur_idx = 0;    // current column index
     int col_idx = 2;  // column in which splitted string is stored
-    Word answer[6];
+    Word* answer = (Word*)malloc(sizeof(Word)*6);
+    FILE *fp;
 
     srand(time(NULL));
     answer_idx = (int)rand()%file_size + 1;
     printf("answer_idx: %d\n", answer_idx);
 
-    printf("here");
-    FILE *fp = fopen("filtered_data.csv", "r");
+    fp = fopen("filtered_data.csv", "r");
     if (!fp) {
         printf("Failed to open the file(ans)\n");
         exit(1);
     }
-    printf("here");
 
     char buffer[1024];
-    while (fgets(buffer, 1024, fp)) {
-        printf("here");
+    while (fgets(buffer, 1024, fp) && idx <= answer_idx) {
         // Trim newline character if present
         buffer[strcspn(buffer, "\n")] = 0;
-
-        char *token = strtok(buffer, ",");
         cur_idx = 0;
-        printf("here");
         if(idx == answer_idx){
+            char *token = strtok(buffer, ",");
             while (token) {
                 if (cur_idx == col_idx) {
                     for(int i=0;i<6;i++){
@@ -128,12 +119,6 @@ Word* createAnswer(){
             break;
         }
         idx++;
-
-        // answer != NULL break;
-        if(answer != NULL){
-            break;
-        }
-
     }
 
     fclose(fp);

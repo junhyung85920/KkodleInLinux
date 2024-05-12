@@ -100,6 +100,10 @@ int checkRightWord(Word input[], Word answer[], Color after[]){   //check if the
                 if(cmp(input, token)){  // if input is in the file
                     // compare and set color array "after"
                     for(int i=0;i<6;i++){
+                        printw("%c",getWord(answer[i]));
+                    }
+
+                    for(int i=0;i<6;i++){
                         for(int j=0;j<6;j++){
                             if(getWord(input[i]) == getWord(answer[j])){
                                 if(i==j){
