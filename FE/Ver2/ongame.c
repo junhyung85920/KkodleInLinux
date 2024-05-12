@@ -8,8 +8,8 @@
 
 //이거 함수 두개 합칠 수 있을듯여?
 Color checkColor(Word input[], Word answer[]);
-int checkCorrect(Word input[], Word answer[]); // 정답인지 확인하는 함수
-int checkRightWord(Word input[]);   //있는 단어인지 확인하는 함수
+int checkCorrect(Word input[], Word answer[]);
+int checkRightWord(Word input[]);
 
 int onGame(Word answer[6]){
     printMainBackground();

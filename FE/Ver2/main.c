@@ -6,7 +6,7 @@
 #include "gamelib.h"
 #include "errlib.h"
 
-//usage : gcc -o main main.c draw.c ongame.c err.c -lncursesw
+//usage : gcc -o main main.c draw.c ongame.c err.c onstart.c onhelp.c -lncursesw
 //zip : zip pro.zip *
 //transfer : multipass transfer pobi:/home/ubuntu/ELEC462/pro/pro.zip /Users/pobi/Downloads/pro.zip
 
@@ -23,12 +23,12 @@ int main() {
     //Word answer[6] = createAnswer();
 
     while(1){
-        //m = onStart();
+        m = onStart();
         if(m == -1){    //quit
             break;
         }
         else if(m == 0){    //help
-            //onHelp();
+            onHelp();
         }
         else{   //game
             result = onGame(answer);

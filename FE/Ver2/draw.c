@@ -251,6 +251,173 @@ void printG(int x, int y){
     refresh();
 }
 
+
+//ㅏ
+void printK(int x, int y){
+
+    move(x+1,y+1);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+2,y+1);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,LeftHalf);
+    move(x+4,y+1);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    refresh();
+
+}
+//ㅓ
+void printJ(int x, int y){
+
+    move(x+1,y+1);
+    printw("        %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+2,y+1);
+    printw("        %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("  %s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full
+    ,Full,Full,Full,LeftHalf);
+    move(x+4,y+1);
+    printw("        %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("        %s%s%s",RightHalf,Full,LeftHalf);
+    refresh();
+}
+//ㅗ
+void printH(int x, int y){
+    move(x+1,y+1);
+    printw("",RightHalf,Full,LeftHalf);
+    move(x+2,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+4,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,Full,Full,LeftHalf);
+    refresh();
+}
+//ㅜ
+void printN(int x, int y){
+    move(x+2,y+1);
+    printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,Full,Full,LeftHalf);
+    printw("",RightHalf,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+4,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+6,y+1);
+    refresh();
+}
+//ㅡ
+void printM(int x, int y){
+    move(x+1,y+1);
+    printw("",RightHalf,Full,LeftHalf);
+    move(x+2,y+1);
+    printw("");
+    move(x+3,y+1);
+    printw("");
+    move(x+4,y+1);
+    printw("");
+    move(x+5,y+1);
+    printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,Full,Full,LeftHalf);
+    refresh();
+}
+//ㅣ
+void printL(int x, int y){
+
+    move(x+1,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+2,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+4,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    refresh();
+
+}
+
+//ㅑ
+void printI(int x, int y){
+
+    move(x+1,y+1);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+2,y+1);
+    printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+4,y+1);
+    printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    refresh();
+
+}
+
+//ㅕ
+void printU(int x, int y){
+
+    move(x+1,y+1);
+    printw("        %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+2,y+1);
+    printw(" %s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("        %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+4,y+1);
+    printw(" %s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("        %s%s%s",RightHalf,Full,LeftHalf);
+    refresh();
+
+}
+
+//ㅛ
+void printY(int x, int y){
+    move(x+1,y+1);
+    printw("",RightHalf,Full,LeftHalf);
+    move(x+2,y+1);
+    printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
+    move(x+4,y+1);
+    printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,Full,Full,LeftHalf);
+    refresh();
+}
+//ㅠ
+void printB(int x, int y){
+    move(x+1,y+1);
+    printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    ,Full,Full,Full,LeftHalf);
+   
+    move(x+2,y+1);
+    printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
+    move(x+3,y+1);
+    printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
+    move(x+4,y+1);
+    printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
+    move(x+5,y+1);
+    printw("",RightHalf,Full,LeftHalf);
+    refresh();
+}
+
+
 void printMainBackground(){
     clear();
     for(int i=0;i<6;i++){
@@ -330,6 +497,16 @@ void printWord(Word w, int round, int index){
         case X: printX(2+round*7,6+13*index); break;   //ㅌ
         case V: printV(2+round*7,6+13*index); break;   //ㅍ
         case G: printG(2+round*7,6+13*index); break;   //ㅎ
+        case K: printK(2+round*7,6+13*index); break;   //ㅏ
+        case J: printK(2+round*7,6+13*index); break;   //ㅓ
+        case H: printH(2+round*7,6+13*index); break;   //ㅗ
+        case N: printN(2+round*7,6+13*index); break;   //ㅜ
+        case M: printM(2+round*7,6+13*index); break;   //ㅡ
+        case L: printL(2+round*7,6+13*index); break;   //ㅣ
+        case I: printI(2+round*7,6+13*index); break;   //ㅑ
+        case U: printU(2+round*7,6+13*index); break;   //ㅕ
+        case Y: printY(2+round*7,6+13*index); break;   //ㅛ
+        case B: printB(2+round*7,6+13*index); break;   //ㅠ
         default: break;
     }
 }
