@@ -6,10 +6,11 @@
 #include <string.h>
 #include <ncursesw/curses.h>
 #include <unistd.h>
-#include "gamelib.h"
+//#include "gamelib.h"
 #include "errlib.h"
+#include "drawlib.h"
 
-//usage : gcc -o main main.c draw.c ongame.c err.c onstart.c onhelp.c -lncursesw
+//usage : gcc -o main -w main.c draw.c ongame.c err.c onstart.c onhelp.c -lncursesw
 //zip : zip pro.zip *
 //transfer : multipass transfer pobi:/home/ubuntu/ELEC462/pro/pro.zip /Users/pobi/Downloads/pro.zip
 
@@ -24,9 +25,12 @@ int main() {
 
     Word answer[6] = {E, K, F, L, A, L};
     //Word* answer = createAnswer();
+
+    /*
     for(int i=0;i<6;i++){
         printw("%c",getWord(answer[i]));
     }
+    */
 
     while(1){
         m = onStart();
@@ -83,33 +87,36 @@ void init(){
 
 Word* createAnswer(){
     int file_size = 77266;  // 1 ~ 77266: 77266개
-    int idx = 0;    // current row index
+    int idx = 1;    // current row index
     int answer_idx; // answer row index
+    int cur_idx = 0;    // current column index
+    int col_idx = 2;  // column in which splitted string is stored
     Word answer[6];
 
     srand(time(NULL));
     answer_idx = (int)rand()%file_size + 1;
+    printf("answer_idx: %d\n", answer_idx);
 
-
+    printf("here");
     FILE *fp = fopen("filtered_data.csv", "r");
     if (!fp) {
         printf("Failed to open the file(ans)\n");
-        return 1;
+        exit(1);
     }
+    printf("here");
 
     char buffer[1024];
-    int col_idx = 2;  // column in which splitted string is stored
-
     while (fgets(buffer, 1024, fp)) {
+        printf("here");
         // Trim newline character if present
         buffer[strcspn(buffer, "\n")] = 0;
 
         char *token = strtok(buffer, ",");
-        int cur_idx = 0;
+        cur_idx = 0;
+        printf("here");
         if(idx == answer_idx){
             while (token) {
                 if (cur_idx == col_idx) {
-                    printf("here\n");
                     for(int i=0;i<6;i++){
                         answer[i] = inputWord(token[i]);
                     }

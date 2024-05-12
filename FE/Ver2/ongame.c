@@ -14,6 +14,7 @@ char getWord(Word c);
 //Color checkColor(Word input[], Word answer[]);
 int checkCorrect(Color after[]);
 int checkRightWord(Word input[], Word answer[], Color after[]);
+void initColor(Color after[]);
 
 int onGame(Word answer[6]){
     printMainBackground();
@@ -77,7 +78,7 @@ int onGame(Word answer[6]){
 }
 
 int checkRightWord(Word input[], Word answer[], Color after[]){   //check if the word exists
-
+    initColor(after);
     FILE *fp = fopen("filtered_data.csv", "r");
     if (!fp) {
         printf("Failed to open the file(chk)\n");
@@ -146,6 +147,13 @@ int cmp(Word input[], char *token){
         }
     }
     return 1;
+}
+
+void initColor(Color after[]){
+    for(int i=0;i<6;i++){
+        after[i] = RED;
+    }
+
 }
 
 char getWord(Word c){
