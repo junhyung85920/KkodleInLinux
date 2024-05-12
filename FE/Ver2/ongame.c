@@ -9,7 +9,7 @@
 //이거 함수 두개 합칠 수 있을듯여?
 Color checkColor(Word input[], Word answer[]);
 int checkCorrect(Word input[], Word answer[]);
-int checkRightWord(Word input[]);
+int checkRightWord(Word input[], Word answer[], Color after[]);
 
 int onGame(Word answer[6]){
     printMainBackground();
@@ -27,9 +27,9 @@ int onGame(Word answer[6]){
             flushinp();
             if((c=='\n'||c=='\r'||c==KEY_ENTER)){
                 if(count==6){
-                    if(checkRightWord(w)){
+                    if(checkRightWord(w,answer,after)){
                         changeColor(after,w,round);
-                        if(checkCorrect(w,answer)){
+                        if(checkCorrect(after)){
                             return round+1;
                         }
                             
@@ -72,21 +72,58 @@ int onGame(Word answer[6]){
     return 0;
 }
 
-int checkRightWord(Word input[]){
-    if(input[0]==R){
+int checkRightWord(Word input[], Word answer[], Color after[]){   //check if the word exists
+
+    FILE *fp = fopen("filetered_data.csv", "r");
+    if (!fp) {
+        printf("Failed to open the file\n");
         return 1;
     }
-    else{
-        return 0;
+
+    char buffer[1024];
+    int col_index = 1;  // column in which splitted string is stored
+
+    while (fgets(buffer, 1024, fp)) {
+        // Trim newline character if present
+        buffer[strcspn(buffer, "\n")] = 0;
+
+        char *token = strtok(buffer, ",");
+        int cur_index = 0;
+        while (token) {
+            if (current_index == column_index) {
+                if(!strcmp(input, token)){
+                    // 색상 배열 변환
+                    for(int i=0;i<6;i++){
+                        for(int j=0;j<6;j++){
+                            if(input[i]==answer[j]){
+                                if(i==j){
+                                    after[i] = GREEN;
+                                }
+                                else{
+                                    after[i] = YELLOW;
+                                }
+                            }
+                        }
+                    }
+                    fclose(fp);
+                    return 1;
+                }
+            }
+            token = strtok(NULL, ",");
+            current_index++;
+        }
     }
+
+    fclose(fp);
+    return 0;
 }
 
-int checkCorrect(Word input[], Word answer[]){
-    if(input[5]==R){
-        return 1;
+int checkCorrect(Color after[]){  //check if the word is correct
+    for(int i=0;i<6;i++){
+        if(after[i] != GREEN){
+            return 1;
+        }
     }
-    else{
-        return 0;
-    }
+    return 0;
     
 }

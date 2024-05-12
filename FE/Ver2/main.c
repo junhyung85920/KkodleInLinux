@@ -1,6 +1,9 @@
 #include <locale.h>
 #include <wchar.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 #include <ncursesw/curses.h>
 #include <unistd.h>
 #include "gamelib.h"
@@ -19,8 +22,8 @@ int main() {
     int m = 1;
     int result = 0;
 
-    Word answer[6] = {R, S, E, F, A, Q};
-    //Word answer[6] = createAnswer();
+    //Word answer[6] = {R, S, E, F, A, Q};
+    Word answer[6] = createAnswer();
 
     while(1){
         m = onStart();
@@ -72,4 +75,55 @@ void init(){
     init_pair(RED, COLOR_RED, COLOR_BLACK); // 빨간색 색상 페어 설정
     init_pair(GREEN, COLOR_GREEN, COLOR_BLACK); // 초록색 색상 페어 설정
     init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK); // 노란색 색상 페어 설정
+}
+
+
+Word* createAnswer(){
+    int file_size = 77266;  // 1 ~ 77266: 77266개
+    int idx = 0;    // current row index
+    int answer_idx; // answer row index
+    Word answer[6];
+
+    srand(time(NULL));
+    answer_idx = (int)rand()%file_size + 1;
+
+
+    FILE *fp = fopen("filetered_data.csv", "r");
+    if (!fp) {
+        printf("Failed to open the file\n");
+        return 1;
+    }
+
+    char buffer[1024];
+    int col_index = 1;  // column in which splitted string is stored
+
+    while (fgets(buffer, 1024, fp)) {
+        // Trim newline character if present
+        buffer[strcspn(buffer, "\n")] = 0;
+
+        char *token = strtok(buffer, ",");
+        int cur_index = 0;
+        if(idx == answer_idx){
+            while (token) {
+                if (current_index == column_index) {
+                    strcpy(answer, token);
+                    break;
+                }
+                token = strtok(NULL, ",");
+                current_index++;
+            }
+            break;
+        }
+        idx++;
+
+        // answer != NULL break;
+        if(answer != NULL){
+            break;
+        }
+
+    }
+
+    fclose(fp);
+
+    return answer;
 }
