@@ -99,6 +99,9 @@ int checkRightWord(Word input[], Word answer[], Color after[]){   //check if the
             if (cur_idx == col_idx) {
                 if(cmp(input, token)){  // if input is in the file
                     // compare and set color array "after"
+
+
+                    // 정답 출력 부분 (확인용)
                     for(int i=0;i<6;i++){
                         printw("%c",getWord(answer[i]));
                     }
