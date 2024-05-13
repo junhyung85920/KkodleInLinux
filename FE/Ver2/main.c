@@ -81,7 +81,7 @@ void init(){
 
 
 Word* createAnswer(){
-    int file_size = 77266;  // 1 ~ 77266: 77266개
+    int file_size = 57015;  // 1 ~ 57015: 57015개
     int idx = 1;    // current row index
     int answer_idx; // answer row index
     int cur_idx = 0;    // current column index
