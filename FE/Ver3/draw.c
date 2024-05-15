@@ -478,21 +478,21 @@ void changeColor(Color check[], Word input[], int round){
     for(int i=0;i<6;i++){
         if(check[i]==GREEN){
             attron(COLOR_PAIR(GREEN)); // 색상 적용
-            printWord(input[i],2+round*7,6+13*i++);
+            printWord(input[i],2+round*7,6+13*i);
             attroff(COLOR_PAIR(GREEN)); // 원상복귀
         }
         else if(check[i]==YELLOW){
             attron(COLOR_PAIR(YELLOW)); // 색상 적용
-            printWord(input[i],2+round*7,6+13*i++);
+            printWord(input[i],2+round*7,6+13*i);
             attroff(COLOR_PAIR(YELLOW)); // 원상복귀
         }
         else if(check[i]==RED){
             attron(COLOR_PAIR(RED)); // 색상 적용
-            printWord(input[i],2+round*7,6+13*i++);
+            printWord(input[i],2+round*7,6+13*i);
             attroff(COLOR_PAIR(RED)); // 원상복귀
         }
         else{
-            printWord(input[i],2+round*7,6+13*i++);
+            printWord(input[i],2+round*7,6+13*i);
         }
         usleep(500000);
     }
