@@ -18,6 +18,7 @@
  - 해더파일을 좀더 단순화 함
     - drawlib은 출력되는 모든것을 다루고, gamelib은 출력이 아닌 판단과정에서 다른 곳에서 필요한 것들을 다룸, errlib은 추후 필요한 err를 다룰 예정
     - 그러기 위해서 파일들을 다시 개편함
+ - main에서는 gamelib만 include하고, 나머지에서는 그냥 drawlib를 include하면 됨
 
  # 해야 할 일
  - 김준형

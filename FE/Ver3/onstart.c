@@ -1,10 +1,4 @@
-#include <ncursesw/curses.h>
-#include <locale.h>
-#include <wchar.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "errlib.h"
+
 #include "drawlib.h"
 
 void printGgodle(){
