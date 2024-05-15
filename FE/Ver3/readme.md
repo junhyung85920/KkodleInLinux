@@ -27,5 +27,6 @@
     - 출력 함수에서 prinw("")과 같이 의미 없는 것들 삭제 -> 메모리만 잡아먹음
     - 시작화면 만들기, 성공 화면 만들기
     - 성공화면에 횟수를 출력해야하는데, 이 과정에서 함수를 printOne과 같이 만들고, 이를 통합적으로 다루는 printNumber가 drawlib에 있었으면 좋겠음. 즉 draw.c에는 printOne이 있고, drawlib에는 printNumber만 정의되어 있는 형식
+    - printWord에 row,col을 입력하면 문자가 출력될겁니다. onfail.c에서 활용하는거 보고, onstart에 사용해주세요.
  - 조재용
     - 기타 추가사항 변경및 실패 꾸미기(추가사항)
