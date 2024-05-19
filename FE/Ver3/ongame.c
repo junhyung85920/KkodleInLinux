@@ -10,8 +10,84 @@ int checkCorrect(Color after[]);
 int checkRightWord(Word input[], Word answer[], Color after[]);
 void initColor(Color after[]);
 int cmp(Word input[], char *token);
+void printMenu(int row, int col){
+    clear();
+    
+    col+=7;
+
+    move(row,col);
+    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+    u8"\u250F", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2513");
+    move(row+1,col); printw("%s", u8"\u2503"); move(row+1,col+47); printw("%s", u8"\u2503");
+    move(row+2,col); printw("%s", u8"\u2503"); move(row+2,col+47); printw("%s", u8"\u2503");
+    move(row+3,col); printw("%s", u8"\u2503"); move(row+3,col+47); printw("%s", u8"\u2503");
+    move(row+4,col); printw("%s", u8"\u2503"); move(row+4,col+47); printw("%s", u8"\u2503");
+    move(row+5,col); printw("%s", u8"\u2503"); move(row+5,col+47); printw("%s", u8"\u2503");
+    
+    printWord(A,row,col);
+    printWord(J,row,col+9);
+    printWord(F,row,col+20);
+    printWord(X,row,col+31);
+    printWord(L,row,col+39);
+
+    move(row+6,col);
+    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+    u8"\u2517", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u251B");
+    
+
+    row+=16;
+    col-=7;
+
+    move(row,col);
+    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+    u8"\u250F", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2513");
+    
+    move(row+1,col); printw("%s", u8"\u2503"); move(row+1,col+62); printw("%s", u8"\u2503");
+    move(row+2,col); printw("%s", u8"\u2503"); move(row+2,col+62); printw("%s", u8"\u2503");
+    move(row+3,col); printw("%s", u8"\u2503"); move(row+3,col+62); printw("%s", u8"\u2503");
+    move(row+4,col); printw("%s", u8"\u2503"); move(row+4,col+62); printw("%s", u8"\u2503");
+    move(row+5,col); printw("%s", u8"\u2503"); move(row+5,col+62); printw("%s", u8"\u2503");
+
+    printWord(T,row,col);
+    printWord(L,row,col+8);
+    printWord(D,row,col+16);
+    printWord(R,row,col+28);
+    printWord(M,row,col+39);
+    printWord(F,row,col+50);
+
+
+    move(row+6,col);
+    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+    u8"\u2517", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u251B");
+    refresh();
+    getch();
+}
 
 int onGame(Word answer[6]){
+
+    printMenu(16,14);
     printMainBackground();
 
     Color after[6] = {RED,RED,RED,RED,RED,RED};

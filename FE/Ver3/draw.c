@@ -267,17 +267,17 @@ void printK(int row, int col){
 //ㅓ
 void printJ(int row, int col){
 
-    move(row+1, col+1);
-    printw("        %s%s%s",RightHalf,Full,LeftHalf);
-    move(row+2, col+1);
-    printw("        %s%s%s",RightHalf,Full,LeftHalf);
-    move(row+3, col+1);
-    printw("  %s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full
+    move(row+1, col+3);
+    printw("      %s%s%s",RightHalf,Full,LeftHalf);
+    move(row+2, col+3);
+    printw("      %s%s%s",RightHalf,Full,LeftHalf);
+    move(row+3, col+3);
+    printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full
     ,Full,Full,Full,LeftHalf);
-    move(row+4, col+1);
-    printw("        %s%s%s",RightHalf,Full,LeftHalf);
-    move(row+5, col+1);
-    printw("        %s%s%s",RightHalf,Full,LeftHalf);
+    move(row+4, col+3);
+    printw("      %s%s%s",RightHalf,Full,LeftHalf);
+    move(row+5, col+3);
+    printw("      %s%s%s",RightHalf,Full,LeftHalf);
     refresh();
 }
 //ㅗ
@@ -307,19 +307,11 @@ void printN(int row, int col){
     printw("    %s%s%s",RightHalf,Full,LeftHalf);
     move(row+5, col+1);
     printw("    %s%s%s",RightHalf,Full,LeftHalf);
-
+    move(row+6, col+1);
     refresh();
 }
 //ㅡ
 void printM(int x, int y){
-    move(x+1,y+1);
-    printw("",RightHalf,Full,LeftHalf);
-    move(x+2,y+1);
-    printw("");
-    move(x+3,y+1);
-    printw("");
-    move(x+4,y+1);
-    printw("");
     move(x+5,y+1);
     printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,Full,Full,LeftHalf);
@@ -328,16 +320,16 @@ void printM(int x, int y){
 //ㅣ
 void printL(int x, int y){
 
-    move(x+1,y+1);
-    printw("    %s%s%s",RightHalf,Full,LeftHalf);
-    move(x+2,y+1);
-    printw("    %s%s%s",RightHalf,Full,LeftHalf);
-    move(x+3,y+1);
-    printw("    %s%s%s",RightHalf,Full,LeftHalf);
-    move(x+4,y+1);
-    printw("    %s%s%s",RightHalf,Full,LeftHalf);
-    move(x+5,y+1);
-    printw("    %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+1,y+5);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+2,y+5);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+3,y+5);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+4,y+5);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
+    move(x+5,y+5);
+    printw("%s%s%s",RightHalf,Full,LeftHalf);
     refresh();
 
 }
@@ -364,26 +356,25 @@ void printI(int x, int y){
 //ㅕ
 void printU(int x, int y){
 
-    move(x+1,y+1);
-    printw("       %s%s%s",RightHalf,Full,LeftHalf);
-    move(x+2,y+1);
-    printw(" %s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    move(x+1,y+2);
+    printw("      %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+2,y+2);
+    printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,LeftHalf);
-    move(x+3,y+1);
-    printw("       %s%s%s",RightHalf,Full,LeftHalf);
-    move(x+4,y+1);
-    printw(" %s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
+    move(x+3,y+2);
+    printw("      %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+4,y+2);
+    printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,LeftHalf);
-    move(x+5,y+1);
-    printw("       %s%s%s",RightHalf,Full,LeftHalf);
+    move(x+5,y+2);
+    printw("      %s%s%s",RightHalf,Full,LeftHalf);
     refresh();
 
 }
 
 //ㅛ
 void printY(int x, int y){
-    move(x+1,y+1);
-    printw("",RightHalf,Full,LeftHalf);
+
     move(x+2,y+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
     move(x+3,y+1);
@@ -397,17 +388,16 @@ void printY(int x, int y){
 }
 //ㅠ
 void printB(int x, int y){
-    move(x+2,y+1);
+    move(x+1,y+1);
     printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,Full,Full,LeftHalf);
    
+    move(x+2,y+1);
+    printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
     move(x+3,y+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
     move(x+4,y+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(x+5,y+1);
-    printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    
     refresh();
 }
 
@@ -491,9 +481,7 @@ void changeColor(Color check[], Word input[], int round){
             printWord(input[i],2+round*7,6+13*i);
             attroff(COLOR_PAIR(RED)); // 원상복귀
         }
-        else{
-            printWord(input[i],2+round*7,6+13*i);
-        }
+        
         usleep(500000);
     }
     flushinp();
