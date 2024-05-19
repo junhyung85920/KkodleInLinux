@@ -32,4 +32,6 @@ void onHelp(){
   refresh();
   // 사용자 입력 대기 (키 입력을 기다림)
   getch();
+  
+  onStart();
 }

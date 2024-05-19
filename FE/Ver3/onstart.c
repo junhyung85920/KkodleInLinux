@@ -1,15 +1,30 @@
 
 #include "drawlib.h"
 
-void printGgodle(){
-    
+void printGgodle(int row, int col){
+    printWord(R,col, row + 52); // ㄱ
+    printWord(R,col, row + 52); // ㄱ
+    printWord(H,col, row + 13); // ㅗ
+    printWord(E,col, row + 26); // ㄷ
+    printWord(M,col, row + 39); // ㅡ
+    printWord(F,col, row + 52); // ㄹ
 }
 
-void printStart(){
-
+void printStart(int row, int col){
+// // 첫 번째 줄: ㅅ ㅣ ㅈ ㅏ ㄱ
+    printWord(T,col, row);     // ㅅ
+    printWord(L,col, row + 13); // ㅣ
+    printWord(W,col, row + 26); // ㅈ
+    printWord(K,col, row + 39); // ㅏ
+    printWord(R,col, row + 52); // ㄱ
 }
 
-void printHemlp(){
+void printHelp(int row, int col){
+    printWord(E,col + 7, row);     // ㄷ
+    printWord(H,col + 7, row + 13); // ㅗ
+    printWord(D,col + 7, row + 26); // ㅇ
+    printWord(N,col + 7, row + 39); // ㅜ
+    printWord(A,col + 7, row + 52); // ㅁ
 
 }
 
@@ -18,25 +33,14 @@ int onStart(){
     clear();
     char c;
     int height, width;
-    getmaxyx(stdscr, height, width); // 터미널의 크기를 얻어옴
+
 
     // 각 자모를 화면 중앙에 맞춰 출력
-    int start_x = (width - (13 * 5)) / 2; // 5글자와 각 글자 사이의 간격 고려
-    int start_y = (height - 7) / 2;       // 7은 각 자모가 차지하는 최대 높이
+    int col = (100 - (13 * 5)) / 2; // 5글자와 각 글자 사이의 간격 고려
+    int row = (55 - 7) / 2;       // 7은 각 자모가 차지하는 최대 높이
 
-    // // 첫 번째 줄: ㅅ ㅣ ㅈ ㅏ ㄱ
-    // printT(start_y, start_x);     // ㅅ
-    // printL(start_y, start_x + 13); // ㅣ
-    // printW(start_y, start_x + 26); // ㅈ
-    // printK(start_y, start_x + 39); // ㅏ
-    // printR(start_y, start_x + 52); // ㄱ
-
-    // // 두 번째 줄: ㄷ ㅗ ㅇ ㅜ ㅁ
-    // printE(start_y + 7, start_x);     // ㄷ
-    // printH(start_y + 7, start_x + 13); // ㅗ
-    // printD(start_y + 7, start_x + 26); // ㅇ
-    // printN(start_y + 7, start_x + 39); // ㅜ
-    // printA(start_y + 7, start_x + 52); // ㅁ
+	printStart(row, col);
+	printHelp(row, col);
 
     while(1){
         c = getch();
@@ -46,14 +50,15 @@ int onStart(){
         }
         else if(c == 'H' || c == 'h'){
             return 0;
+            onHelp();
         }
         else if(c == 'S' || c == 's'){
             return 1;
+            onStart();
         }
         else{
             printError("          Usage : Q,S,H");
         }
     }
-    
 }
 
