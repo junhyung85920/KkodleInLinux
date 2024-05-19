@@ -311,92 +311,92 @@ void printN(int row, int col){
     refresh();
 }
 //ㅡ
-void printM(int x, int y){
-    move(x+5,y+1);
+void printM(int row, int col){
+    move(row+5,col+1);
     printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,Full,Full,LeftHalf);
     refresh();
 }
 //ㅣ
-void printL(int x, int y){
+void printL(int row, int col){
 
-    move(x+1,y+5);
+    move(row+1,col+5);
     printw("%s%s%s",RightHalf,Full,LeftHalf);
-    move(x+2,y+5);
+    move(row+2,col+5);
     printw("%s%s%s",RightHalf,Full,LeftHalf);
-    move(x+3,y+5);
+    move(row+3,col+5);
     printw("%s%s%s",RightHalf,Full,LeftHalf);
-    move(x+4,y+5);
+    move(row+4,col+5);
     printw("%s%s%s",RightHalf,Full,LeftHalf);
-    move(x+5,y+5);
+    move(row+5,col+5);
     printw("%s%s%s",RightHalf,Full,LeftHalf);
     refresh();
 
 }
 
 //ㅑ
-void printI(int x, int y){
+void printI(int row, int col){
 
-    move(x+1,y+1);
+    move(row+1,col+1);
     printw("%s%s%s",RightHalf,Full,LeftHalf);
-    move(x+2,y+1);
+    move(row+2,col+1);
     printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,LeftHalf);
-    move(x+3,y+1);
+    move(row+3,col+1);
     printw("%s%s%s",RightHalf,Full,LeftHalf);
-    move(x+4,y+1);
+    move(row+4,col+1);
     printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,LeftHalf);
-    move(x+5,y+1);
+    move(row+5,col+1);
     printw("%s%s%s",RightHalf,Full,LeftHalf);
     refresh();
 
 }
 
 //ㅕ
-void printU(int x, int y){
+void printU(int row, int col){
 
-    move(x+1,y+2);
+    move(row+1,col+2);
     printw("      %s%s%s",RightHalf,Full,LeftHalf);
-    move(x+2,y+2);
+    move(row+2,col+2);
     printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,LeftHalf);
-    move(x+3,y+2);
+    move(row+3,col+2);
     printw("      %s%s%s",RightHalf,Full,LeftHalf);
-    move(x+4,y+2);
+    move(row+4,col+2);
     printw("%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,LeftHalf);
-    move(x+5,y+2);
+    move(row+5,col+2);
     printw("      %s%s%s",RightHalf,Full,LeftHalf);
     refresh();
 
 }
 
 //ㅛ
-void printY(int x, int y){
+void printY(int row, int col){
 
-    move(x+2,y+1);
+    move(row+2,col+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(x+3,y+1);
+    move(row+3,col+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(x+4,y+1);
+    move(row+4,col+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(x+5,y+1);
+    move(row+5,col+1);
     printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,Full,Full,LeftHalf);
     refresh();
 }
 //ㅠ
-void printB(int x, int y){
-    move(x+1,y+1);
+void printB(int row, int col){
+    move(row+1,col+1);
     printw("%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full
     ,Full,Full,Full,LeftHalf);
    
-    move(x+2,y+1);
+    move(row+2,col+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(x+3,y+1);
+    move(row+3,col+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(x+4,y+1);
+    move(row+4,col+1);
     printw("  %s%s%s %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
     refresh();
 }
