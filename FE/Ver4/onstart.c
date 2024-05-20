@@ -49,24 +49,72 @@ void printGgodle(int row, int col){
 }
 
 void printStart(int row, int col){
-// // 첫 번째 줄: ㅅ ㅣ ㅈ ㅏ ㄱ
+    move(row,col);
+    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+    u8"\u250F", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2513");
 
+    printWord(T,row, col);     // ㅅ
+    printWord(L,row, col+10); // ㅣ
+    printWord(W,row, col+21); // ㅈ
+    printWord(K,row, col+34); // ㅏ
+    printWord(R,row, col+44); // ㄱ
 
-    printWord(T,row,col); // ㅅ
-    printWord(L,row,col+7); // ㅣ
-    printWord(W,row,col+17); // ㅈ
-    printWord(K,row,col+29); // ㅏ
-    printWord(R,row,col+34); // ㄱ
+    move(row+1,col); printw("%s", u8"\u2503"); move(row+1,col+56); printw("%s", u8"\u2503");
+    move(row+2,col); printw("%s", u8"\u2503"); move(row+2,col+56); printw("%s", u8"\u2503");
+    move(row+3,col); printw("%s", u8"\u2503"); move(row+3,col+56); printw("%s", u8"\u2503");
+    move(row+4,col); printw("%s", u8"\u2503"); move(row+4,col+56); printw("%s", u8"\u2503");
+    move(row+5,col); printw("%s", u8"\u2503"); move(row+5,col+56); printw("%s", u8"\u2503");
+
+    move(row+6,col);
+    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+    u8"\u2517", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u251B");
 }
 
 void printHelp(int row, int col){
 
-    printWord(E,row, col+1);     // ㄷ
-    printWord(H,row, col+12); // ㅗ
-    printWord(D,row, col + 24); // ㅇ
-    printWord(N,row, col + 36); // ㅜ
-    printWord(A,row, col+48); // ㅁ
+    move(row,col);
+    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+    u8"\u250F", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2513");
 
+    printWord(E,row, col);     // ㄷ
+    printWord(H,row, col+11); // ㅗ
+    printWord(D,row, col+22); // ㅇ
+    printWord(N,row, col+33); // ㅜ
+    printWord(A,row, col+44); // ㅁ
+
+    move(row+1,col); printw("%s", u8"\u2503"); move(row+1,col+56); printw("%s", u8"\u2503");
+    move(row+2,col); printw("%s", u8"\u2503"); move(row+2,col+56); printw("%s", u8"\u2503");
+    move(row+3,col); printw("%s", u8"\u2503"); move(row+3,col+56); printw("%s", u8"\u2503");
+    move(row+4,col); printw("%s", u8"\u2503"); move(row+4,col+56); printw("%s", u8"\u2503");
+    move(row+5,col); printw("%s", u8"\u2503"); move(row+5,col+56); printw("%s", u8"\u2503");
+
+    move(row+6,col);
+    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+    u8"\u2517", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
+    , u8"\u2501", u8"\u2501", u8"\u251B");
 }
 
 
@@ -75,84 +123,21 @@ int onStart(){
     char c;
     int height, width;
 
-    printGgodle(1,25);
+    printGgodle(5,25);
 
-    int row=18;
-    int col=16;
-    col+=7;
-
-    move(row,col);
-    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
-    u8"\u250F", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2513");
-    move(row+1,col); printw("%s", u8"\u2503"); move(row+1,col+47); printw("%s", u8"\u2503");
-    move(row+2,col); printw("%s", u8"\u2503"); move(row+2,col+47); printw("%s", u8"\u2503");
-    move(row+3,col); printw("%s", u8"\u2503"); move(row+3,col+47); printw("%s", u8"\u2503");
-    move(row+4,col); printw("%s", u8"\u2503"); move(row+4,col+47); printw("%s", u8"\u2503");
-    move(row+5,col); printw("%s", u8"\u2503"); move(row+5,col+47); printw("%s", u8"\u2503");
+    int row=24;
+    int col=17;
 	
     printStart(row, col);
-
-    move(row+6,col);
-    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
-    u8"\u2517", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u251B");
     
 
-    row+=16;
-    col-=7;
-
-    move(row,col);
-    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
-    u8"\u250F", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2513");
-    
-    move(row+1,col); printw("%s", u8"\u2503"); move(row+1,col+62); printw("%s", u8"\u2503");
-    move(row+2,col); printw("%s", u8"\u2503"); move(row+2,col+62); printw("%s", u8"\u2503");
-    move(row+3,col); printw("%s", u8"\u2503"); move(row+3,col+62); printw("%s", u8"\u2503");
-    move(row+4,col); printw("%s", u8"\u2503"); move(row+4,col+62); printw("%s", u8"\u2503");
-    move(row+5,col); printw("%s", u8"\u2503"); move(row+5,col+62); printw("%s", u8"\u2503");
-	
+    row+=12;
     
     printHelp(row, col);
 
-      move(row+6,col);
-    printw("%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
-    u8"\u2517", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
-    , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u251B");
+
+    
     refresh();
-
-    // // 첫 번째 줄: ㅅ ㅣ ㅈ ㅏ ㄱ
-    // printT(start_y, start_x);     // ㅅ
-    // printL(start_y, start_x + 13); // ㅣ
-    // printW(start_y, start_x + 26); // ㅈ
-    // printK(start_y, start_x + 39); // ㅏ
-    // printR(start_y, start_x + 52); // ㄱ
-
-    // // 두 번째 줄: ㄷ ㅗ ㅇ ㅜ ㅁ
-    // printE(start_y + 7, start_x);     // ㄷ
-    // printH(start_y + 7, start_x + 13); // ㅗ
-    // printD(start_y + 7, start_x + 26); // ㅇ
-    // printN(start_y + 7, start_x + 39); // ㅜ
-    // printA(start_y + 7, start_x + 52); // ㅁ
 
     while(1){
         c = getch();
@@ -169,11 +154,9 @@ int onStart(){
             onStart();
         }
         else{
-            printError("          Usage : Q,S,H");
+            printError("        Usage : Q,S,H");
         }
     }
-    
-    
-    
+
 }
 

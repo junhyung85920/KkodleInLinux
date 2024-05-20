@@ -10,15 +10,17 @@
 void init();
 Word* createAnswer();
 
-int round=0;
+
 
 int main() {
+    
     init();
     int m = 1;
+    int round=0;
     int result =0;
     int score =0;
-     Word answer[6] = {E, K, F, L, A, L};
-    //Word* answer = createAnswer();
+    //Word answer[6] = {E, K, F, L, A, L};
+    Word* answer = createAnswer();
 
     while(1){
         m = onStart();
@@ -54,7 +56,7 @@ int main() {
 }
 
 void init(){
-    printf("\e[8;55;90t"); //창크기를 100*55로 설정
+    printf("\e[8;55;90t"); //창크기를 90*55로 설정
 
     // 환경 설정
     setlocale(LC_ALL, ""); // 유니코드 출력을 위해 로케일 설정
