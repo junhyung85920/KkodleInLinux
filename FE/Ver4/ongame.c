@@ -97,7 +97,7 @@ void onGame(){
         onSuccess(result);
     }
 
-    
+
     if(menu ==1){
         if(opponent == 0){
             clear();
@@ -108,7 +108,7 @@ void onGame(){
         }else{
             clear();
             move(25,30);
-            printw("상대방은 %d번만에 성공하였습니다.",3);
+            printw("상대방은 %d번만에 성공하였습니다.",opponent);
             refresh();
             getch();
         }
