@@ -87,7 +87,7 @@ void printMenu(int row, int col){
 
 int onGame(Word answer[6], int round){
 
-   // printMenu(16,14);
+    // printMenu(16,14);
     printMainBackground();
 
     Color after[6] = {RED,RED,RED,RED,RED,RED};

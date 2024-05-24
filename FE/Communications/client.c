@@ -1,10 +1,10 @@
 // client.c
 #include <stdio.h>
 #include <sys/socket.h>
-#include <stdlib.h>
-#include <netinet/in.h>
-#include <string.h>
 #include <arpa/inet.h>
+#include <netinet/in.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 //#include "drawlib.h"
 #include "gamelib.h"
@@ -26,7 +26,7 @@ void send_screen_data(int sock) {
     }
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     struct sockaddr_in serv_addr;
     int sock = 0;
 
@@ -38,7 +38,7 @@ int main() {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
 
-    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) {
+    if(inet_pton(AF_INET, argv[1], &serv_addr.sin_addr)<=0) {
         printf("\nInvalid address/ Address not supported \n");
         return -1;
     }
@@ -57,3 +57,6 @@ int main() {
     close(sock);
     return 0;
 }
+
+git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
