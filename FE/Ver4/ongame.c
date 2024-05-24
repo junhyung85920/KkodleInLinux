@@ -17,6 +17,7 @@ int printMenu(int row, int col);
 void onGame(){
 
     int menu = 0;
+    int opponent = 1;
     menu = printMenu(16,14);
     printMainBackground();
     Word* answer;
@@ -92,6 +93,24 @@ void onGame(){
     else{
         onSuccess(result);
     }
+
+    
+    if(menu ==1){
+        if(opponent == 0){
+            clear();
+            move(25,35);
+            printw("상대방은 실패하였습니다.");
+            refresh();
+            getch();
+        }else{
+            clear();
+            move(25,30);
+            printw("상대방은 %d번만에 성공하였습니다.",3);
+            refresh();
+            getch();
+        }
+    }
+    
 
     return;
 }
