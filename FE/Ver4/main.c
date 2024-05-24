@@ -9,7 +9,7 @@
 
 void init();
 
-int main() {
+int main(int argc, char* argv[]) {
     
     init();
     int m = 1;
@@ -23,7 +23,7 @@ int main() {
             onHelp();
         }
         else{   //game
-            onGame();
+            onGame(argv[1]);
         }
     }
     

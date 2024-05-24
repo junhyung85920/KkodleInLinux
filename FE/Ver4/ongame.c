@@ -15,7 +15,7 @@ int printMenu(int row, int col);
 Word* makeAnswer();
 
 
-void onGame(){
+void onGame(char* path){
 
     int menu = 0;
     int opponent = 1;
