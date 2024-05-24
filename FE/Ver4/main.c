@@ -8,19 +8,11 @@
 
 
 void init();
-Word* createAnswer();
-
-
 
 int main() {
     
     init();
     int m = 1;
-    int round=0;
-    int result =0;
-    int score =0;
-    //Word answer[6] = {E, K, F, L, A, L};
-    Word* answer = createAnswer();
 
     while(1){
         m = onStart();
@@ -31,20 +23,7 @@ int main() {
             onHelp();
         }
         else{   //game
-            result = onGame(answer,round);
-            if(result){
-                move(48,30);
-                printw("%d",result);
-                refresh();
-                sleep(3);
-                //break;
-                score=round;
-                onSuccess(score);
-            }
-            else{
-                onFail(answer);
-                break;
-            }
+            onGame();
         }
     }
     
@@ -74,50 +53,4 @@ void init(){
     init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK); // 노란색 색상 페어 설정
 }
 
-
-Word* createAnswer(){
-    int file_size = 57015;  // 1 ~ 57015: 57015개
-    int idx = 1;    // current row index
-    int answer_idx; // answer row index
-    int cur_idx = 0;    // current column index
-    int col_idx = 2;  // column in which splitted string is stored
-    Word* answer = (Word*)malloc(sizeof(Word)*6);
-    FILE *fp;
-
-    srand(time(NULL));
-    answer_idx = (int)rand()%file_size + 1;
-    printf("answer_idx: %d\n", answer_idx);
-
-    fp = fopen("filtered_data.csv", "r");
-    if (!fp) {
-        printf("Failed to open the file(ans)\n");
-        exit(1);
-    }
-
-    char buffer[1024];
-    while (fgets(buffer, 1024, fp) && idx <= answer_idx) {
-        // Trim newline character if present
-        buffer[strcspn(buffer, "\n")] = 0;
-        cur_idx = 0;
-        if(idx == answer_idx){
-            char *token = strtok(buffer, ",");
-            while (token) {
-                if (cur_idx == col_idx) {
-                    for(int i=0;i<6;i++){
-                        answer[i] = inputWord(token[i]);
-                    }
-                    break;
-                }
-                token = strtok(NULL, ",");
-                cur_idx++;
-            }
-            break;
-        }
-        idx++;
-    }
-
-    fclose(fp);
-
-    return answer;
-}
 

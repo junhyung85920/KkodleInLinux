@@ -13,7 +13,7 @@ typedef enum {BLACK=0,RED,GREEN,YELLOW} Color;                               //�
 
 typedef enum{R=20, S,E,F,A,Q,T,D,W,C,Z,X,V,G,K,I,J,U,H,Y,N,B,M,L} Word;                         //문자가 정의되어 있는 변수
 
-int onGame(Word answer[6],int round);
+void onGame();
 
 int onStart();
 

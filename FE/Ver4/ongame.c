@@ -10,7 +10,93 @@ int checkCorrect(Color after[]);
 int checkRightWord(Word input[], Word answer[], Color after[]);
 void initColor(Color after[]);
 int cmp(Word input[], char *token);
-void printMenu(int row, int col){
+Word* createAnswer();
+int printMenu(int row, int col);
+
+
+void onGame(){
+
+    int menu = 0;
+    menu = printMenu(16,14);
+    printMainBackground();
+    Word* answer;
+    Word temp[6] = {D,K,S,S,U,D};
+
+    if(menu==1){    //multi일때
+        answer = temp;
+    }
+    else{   //single일때
+        answer = createAnswer();
+    }
+
+    Color after[6] = {RED,RED,RED,RED,RED,RED};
+    int count = 0, round = 0;
+    int result = -1;
+    char c;
+    Word w[6];
+
+    while(round<6){
+        count=0;
+        while(count<=6){
+            c = getch();
+            flushinp();
+            if((c=='\n'||c=='\r'||c==KEY_ENTER)){
+                if(count==6){
+                    if(checkRightWord(w,answer,after)){
+                        changeColor(after,w,round);
+                        if(checkCorrect(after)){
+                            result = round;
+                            break;
+                        }
+                            
+                    }
+                    else{
+                        printError("존재하지 않는 단어 입니다.");
+                        deleteRound(round--);
+                    }
+                    
+                    break;
+                }
+                else{
+                    printError("단어를 모두 입력해주세요.");
+                }
+            }
+            else if(c==7 || c==KEY_BACKSPACE){
+                if(count==0){
+                    printError("지울 수 있는 단어가 없습니다.");
+                }
+                else{
+                    deleteWord(round,--count);
+                }
+            }
+            else if(isWord(c)){
+                if(count==6){
+                    printError("더 이상 입력할 수 없습니다.");
+                }
+                else{
+                    w[count] = inputWord(c);
+                    printWord(w[count],2+round*7,6+13*count++);
+                }
+            }
+            else{
+                printWordError();
+            }
+        }
+        round++;
+        if(result != -1) break;
+    }
+    
+    if(result == -1){
+        onFail(answer);
+    }
+    else{
+        onSuccess(result);
+    }
+
+    return;
+}
+
+int printMenu(int row, int col){
     clear();
     
     col+=7;
@@ -82,70 +168,68 @@ void printMenu(int row, int col){
     , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501"
     , u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u251B");
     refresh();
-    getch();
+
+    char m;
+
+    while(1){
+        m = getch();
+        if(m=='M' || m=='m'){
+            return 1;
+        }
+        else if(m=='S' || m=='s'){
+            return 0;
+        }
+        else{
+            printError("Usage : multi is 'M', single is 'S'");
+        }
+    }
+    
 }
 
-int onGame(Word answer[6], int round){
+Word* createAnswer(){
+    int file_size = 57015;  // 1 ~ 57015: 57015개
+    int idx = 1;    // current row index
+    int answer_idx; // answer row index
+    int cur_idx = 0;    // current column index
+    int col_idx = 2;  // column in which splitted string is stored
+    Word* answer = (Word*)malloc(sizeof(Word)*6);
+    FILE *fp;
 
-    // printMenu(16,14);
-    printMainBackground();
+    srand(time(NULL));
+    answer_idx = (int)rand()%file_size + 1;
+    //printf("answer_idx: %d\n", answer_idx);
 
-    Color after[6] = {RED,RED,RED,RED,RED,RED};
-    //int round = 0;
-    int count = 0;
-    char c;
-    Word w[6];
+    fp = fopen("filtered_data.csv", "r");
+    if (!fp) {
+        printf("Failed to open the file(ans)\n");
+        exit(1);
+    }
 
-    while(round<6){
-        count=0;
-        while(count<=6){
-            c = getch();
-            flushinp();
-            if((c=='\n'||c=='\r'||c==KEY_ENTER)){
-                if(count==6){
-                    if(checkRightWord(w,answer,after)){
-                        changeColor(after,w,round);
-                        if(checkCorrect(after)){
-                            return round+1;
-                        }
-                            
+    char buffer[1024];
+    while (fgets(buffer, 1024, fp) && idx <= answer_idx) {
+        // Trim newline character if present
+        buffer[strcspn(buffer, "\n")] = 0;
+        cur_idx = 0;
+        if(idx == answer_idx){
+            char *token = strtok(buffer, ",");
+            while (token) {
+                if (cur_idx == col_idx) {
+                    for(int i=0;i<6;i++){
+                        answer[i] = inputWord(token[i]);
                     }
-                    else{
-                        printError("존재하지 않는 단어 입니다.");
-                        deleteRound(round--);
-                    }
-                    
                     break;
                 }
-                else{
-                    printError("단어를 모두 입력해주세요.");
-                }
+                token = strtok(NULL, ",");
+                cur_idx++;
             }
-            else if(c==7 || c==KEY_BACKSPACE){
-                if(count==0){
-                    printError("지울 수 있는 단어가 없습니다.");
-                }
-                else{
-                    deleteWord(round,--count);
-                }
-            }
-            else if(isWord(c)){
-                if(count==6){
-                    printError("더 이상 입력할 수 없습니다.");
-                }
-                else{
-                    w[count] = inputWord(c);
-                    printWord(w[count],2+round*7,6+13*count++);
-                }
-            }
-            else{
-                printWordError();
-            }
+            break;
         }
-        round++;
+        idx++;
     }
-    printError("횟수끝");;
-    return 0;
+
+    fclose(fp);
+
+    return answer;
 }
 
 int checkRightWord(Word input[], Word answer[], Color after[]){   //check if the word exists
