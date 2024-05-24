@@ -12,6 +12,7 @@ void initColor(Color after[]);
 int cmp(Word input[], char *token);
 Word* createAnswer();
 int printMenu(int row, int col);
+Word* makeAnswer();
 
 
 void onGame(){
@@ -24,7 +25,7 @@ void onGame(){
     Word temp[6] = {D,K,S,S,U,D};
 
     if(menu==1){    //multi일때
-        answer = temp;
+        answer = makeAnswer();
     }
     else{   //single일때
         answer = createAnswer();
@@ -428,3 +429,5 @@ char getWord(Word c){
     }
     
 }
+
+Word* makeAnswer();
