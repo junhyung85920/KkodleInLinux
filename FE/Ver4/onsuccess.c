@@ -65,5 +65,5 @@ void onSuccess(int score){
     move(31,43);
     printw("횟수 : %d", score+1);
     refresh();
-    sleep(3);
+    getch();
 }

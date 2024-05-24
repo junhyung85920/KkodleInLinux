@@ -66,5 +66,5 @@ void onFail(Word answer[6]){
     printw("정답은 ");
     printEnswer(answer);
     refresh();
-    sleep(3);
+    getch();
 }
