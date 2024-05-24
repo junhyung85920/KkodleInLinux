@@ -22,20 +22,22 @@ void onGame(){
     menu = printMenu(16,14);
     printMainBackground();
     Word* answer;
-    Word temp[6] = {D,K,S,S,U,D};
-
-    if(menu==1){    //multi일때
-        answer = makeAnswer();
-    }
-    else{   //single일때
-        answer = createAnswer();
-    }
-
     Color after[6] = {RED,RED,RED,RED,RED,RED};
     int count = 0, round = 0;
     int result = -1;
     char c;
     Word w[6];
+    Word temp[6] = {D,K,S,S,U,D};
+
+
+    if(menu==1){    //multi일때
+        //answer = makeAnswer();
+        answer = temp;          //answer에 사용자가 만든 정답이 들어갈것입니다. / answer를 넘기세요. 그리고 answer에다가 값을 받으세요.
+    }
+    else{   //single일때
+        answer = createAnswer();
+    }
+
 
     while(round<6){
         count=0;
