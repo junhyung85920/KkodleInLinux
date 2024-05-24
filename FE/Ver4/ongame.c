@@ -21,7 +21,7 @@ void onGame(){
     int opponent = 1;
     menu = printMenu(16,14);
     printMainBackground();
-    Word* answer;
+    Word* answer, opponent_answer;
     Color after[6] = {RED,RED,RED,RED,RED,RED};
     int count = 0, round = 0;
     int result = -1;
@@ -31,8 +31,8 @@ void onGame(){
 
 
     if(menu==1){    //multi일때
-        //answer = makeAnswer();
-        answer = temp;          //answer에 사용자가 만든 정답이 들어갈것입니다. / answer를 넘기세요. 그리고 answer에다가 값을 받으세요.
+        //opponent_answer = makeAnswer();
+        opponent_answer = temp;          //opponent_answer 사용자가 만든 정답이 들어갈것입니다. / opponent_answer 넘기세요. 그리고 answer에다가 값을 받으세요.
     }
     else{   //single일때
         answer = createAnswer();
