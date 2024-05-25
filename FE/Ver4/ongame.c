@@ -13,6 +13,7 @@ int cmp(Word input[], char *token);
 Word* createAnswer();
 int printMenu(int row, int col);
 Word* makeAnswer();
+void onAnswer();
 
 
 void onGame(char* path){
@@ -20,7 +21,7 @@ void onGame(char* path){
     int menu = 0;
     int opponent = 1;
     menu = printMenu(16,14);
-    printMainBackground();
+    
     Word* answer, opponent_answer;
     Color after[6] = {RED,RED,RED,RED,RED,RED};
     int count = 0, round = 0;
@@ -32,12 +33,15 @@ void onGame(char* path){
 
     if(menu==1){    //multi일때
         //opponent_answer = makeAnswer();
-        opponent_answer = temp;          //opponent_answer 사용자가 만든 정답이 들어갈것입니다. / opponent_answer 넘기세요. 그리고 answer에다가 값을 받으세요.
+        answer = makeAnswer();
+        //opponent_answer = temp;          //opponent_answer 사용자가 만든 정답이 들어갈것입니다. / opponent_answer 넘기세요. 그리고 answer에다가 값을 받으세요.
     }
     else{   //single일때
         answer = createAnswer();
     }
 
+
+    printMainBackground();
 
     while(round<6){
         count=0;
@@ -432,4 +436,114 @@ char getWord(Word c){
     
 }
 
-Word* makeAnswer();
+void onAnswer(){
+    clear();
+
+    move(16,30);
+    printw("상대방에게 갈 정답을 입력해 주세요.");
+
+    for(int j=0;j<6;j++){
+        move(2+3*7,6+13*j);
+        printw("%s%s%s%s%s%s%s%s%s%s%s%s%s", u8"\u250F", u8"\u2501", u8"\u2501", u8"\u2501" , 
+        u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", 
+        u8"\u2501", u8"\u2501", u8"\u2513"); // 특정 단어 출력
+            
+        for(int k=1;k<=5;k++){
+            move(2+3*7+k,6+13*j);
+            printw("%s           %s", u8"\u2503", u8"\u2503"); // 특정 단어 출력
+        }
+        move(2+3*7+6,6+13*j);
+        printw("%s%s%s%s%s%s%s%s%s%s%s%s%s", u8"\u2517", u8"\u2501", u8"\u2501", u8"\u2501" , 
+        u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", u8"\u2501", 
+        u8"\u2501", u8"\u2501", u8"\u251B"); // 특정 단어 출력
+    }
+    refresh();
+
+}
+
+Word* makeAnswer(){
+
+    onAnswer();
+
+    int count=0, round=3;
+    char c;
+    Word* w = (Word*)malloc(sizeof(Word)*6);
+    Color after[6] = {RED,RED,RED,RED,RED,RED};
+    Word answer[6] = {A,K,S,S,U,D};
+
+
+    while(3<=round && round<4){
+        count = 0;
+        while(count<=6){
+            c = getch();
+            flushinp();
+            if((c=='\n'||c=='\r'||c==KEY_ENTER)){
+                if(count==6){
+                    if(checkRightWord(w,answer,after)){
+                        round++;
+                        break;     
+                    }
+                    else{
+                        printError("존재하지 않는 단어 입니다.");
+                        deleteRound(round);
+                    }
+                    
+                    break;
+                }
+                else{
+                    printError("단어를 모두 입력해주세요.");
+                }
+            }
+            else if(c==7 || c==KEY_BACKSPACE){
+                if(count==0){
+                    printError("지울 수 있는 단어가 없습니다.");
+                }
+                else{
+                    deleteWord(round,--count);
+                }
+            }
+            else if(isWord(c)){
+                if(count==6){
+                    printError("더 이상 입력할 수 없습니다.");
+                }
+                else{
+                    w[count] = inputWord(c);
+                    printWord(w[count],2+round*7,6+13*count++);
+                }
+            }
+            else{
+                printWordError();
+            }
+        }
+
+        
+        while(round == 4){
+            move(47,22);
+            printw("해당 단어가 맞다면 O, 아니라면 X을 눌러주세요.");
+
+            c = getch();
+
+            if(c == 'O' || c=='o'){
+                break;
+            }
+            else if(c=='X' || c=='x'){
+                deleteRound(--round);
+                move(47,22);
+                printw("                                                        ");
+                break;
+            }
+            else{
+                printError("다시 입력해 주세요.");
+            }
+        }
+    }
+
+    clear();
+    move(25,40);
+    printw("게임 시작");
+    refresh();
+    sleep(2);
+    
+
+    return w;
+}

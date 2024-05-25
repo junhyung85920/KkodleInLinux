@@ -23,6 +23,8 @@ void onSuccess(int round);;
 
 void onFail(Word answer[6]);
 
+void onAnswer();
+
 int isWord(char c);
 
 char getWord(Word c);
