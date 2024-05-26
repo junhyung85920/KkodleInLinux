@@ -15,6 +15,10 @@ int printMenu(int row, int col);
 Word* makeAnswer();
 void onAnswer();
 
+// Socket communication functions
+int connectToServer(const char *server_ip, int server_port);
+int sendAnswer(int sockfd, Word *answer);
+int receiveAnswer(int sockfd, Word *answer);
 
 void onGame(char* path){
 
@@ -22,7 +26,9 @@ void onGame(char* path){
     int opponent = 1;
     menu = printMenu(16,14);
     
-    Word* answer, opponent_answer;
+    Word* answer;
+    Word opponent_answer[6
+    ];
     Color after[6] = {RED,RED,RED,RED,RED,RED};
     int count = 0, round = 0;
     int result = -1;
@@ -30,10 +36,19 @@ void onGame(char* path){
     Word w[6];
     Word temp[6] = {D,K,S,S,U,D};
 
+    int sockfd=-1;
+
 
     if(menu==1){    //multi일때
         //opponent_answer = makeAnswer();
+        sockfd = connectToServer("192.168.56.101", 8888);  // Replace with actual server IP and port
+        if (sockfd < 0) {
+            printError("Failed to connect to the server.");
+            return;
+        }
         answer = makeAnswer();
+        sendAnswer(sockfd, answer);
+        receiveAnswer(sockfd, opponent_answer);
         //opponent_answer = temp;          //opponent_answer 사용자가 만든 정답이 들어갈것입니다. / opponent_answer 넘기세요. 그리고 answer에다가 값을 받으세요.
     }
     else{   //single일때
@@ -119,8 +134,56 @@ void onGame(char* path){
     }
     
 
+    //close socket
+    if (sockfd >= 0) {
+        close(sockfd);
+    }
+
     return;
 }
+int connectToServer(const char *server_ip, int server_port) {
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) {
+        perror("socket");
+        return -1;
+    }
+
+    struct sockaddr_in serv_addr;
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(server_port);
+    if (inet_pton(AF_INET, server_ip, &serv_addr.sin_addr) <= 0) {
+        perror("inet_pton");
+        close(sockfd);
+        return -1;
+    }
+
+    if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+        perror("connect");
+        close(sockfd);
+        return -1;
+    }
+
+    return sockfd;
+}
+
+int sendAnswer(int sockfd, Word *answer) {
+    if (send(sockfd, answer, sizeof(Word) * 6, 0) < 0) {
+        perror("send");
+        return -1;
+    }
+    return 0;
+}
+
+int receiveAnswer(int sockfd, Word *answer) {
+    if (recv(sockfd, answer, sizeof(Word) * 6, 0) < 0) {
+        perror("recv");
+        return -1;
+    }
+    return 0;
+}
+
+/////////
 
 int printMenu(int row, int col){
     clear();
