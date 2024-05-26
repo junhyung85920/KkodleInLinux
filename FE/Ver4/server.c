@@ -30,10 +30,13 @@ void *handle_client(void *client_socket) {
     int round = -1;
     int bytes_received;
     
-    while ((bytes_received = recv(sock, buffer, sizeof(buffer) - 1, 0)) > 0) {
-        buffer[bytes_received] = '\0';
-
+    while (1) {
         pthread_mutex_lock(&lock);
+        if((bytes_received = recv(sock, buffer, sizeof(buffer) - 1, 0)) <= 0){
+            perror("recv failed");
+            break;
+        }
+        buffer[bytes_received] = '\0';
         int other_sock = (sock == client_sockets[0]) ? client_sockets[1] : client_sockets[0];
         if (other_sock > 0) {
             send(other_sock, buffer, bytes_received, 0);
