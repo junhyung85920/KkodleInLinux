@@ -64,6 +64,10 @@ void onGame(char *path)
 
     printMainBackground();
 
+    for(int i=0;i<6;i++){
+        printWord(answer[i],2 + 0 * 7,6 + 13 * i);
+    }
+
     while (round < 6)
     {
         count = 0;
