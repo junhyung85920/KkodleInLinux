@@ -27,7 +27,7 @@ void onGame(char *path)
     menu = printMenu(16, 14);
 
     Word *answer;
-    Word opponent_answer[6];
+    Word *opponent_answer;
     Color after[6] = {RED, RED, RED, RED, RED, RED};
     int count = 0, round = 0;
     int result = -1;
@@ -46,9 +46,10 @@ void onGame(char *path)
             printError("Failed to connect to the server.");
             return;
         }
-        answer = makeAnswer();
-        sendAnswer(sockfd, answer);
-        receiveAnswer(sockfd, opponent_answer);
+        //기다리는것
+        opponent_answer = makeAnswer();
+        sendAnswer(sockfd, opponent_answer);
+        receiveAnswer(sockfd, answer);
         // opponent_answer = temp;          //opponent_answer 사용자가 만든 정답이 들어갈것입니다. / opponent_answer 넘기세요. 그리고 answer에다가 값을 받으세요.
     }
     else
@@ -56,6 +57,7 @@ void onGame(char *path)
         answer = createAnswer();
     }
 
+    
     printMainBackground();
 
     while (round < 6)
@@ -132,6 +134,8 @@ void onGame(char *path)
     {
         onSuccess(result);
     }
+
+    //기다리는것
 
     if (menu == 1)
     {
