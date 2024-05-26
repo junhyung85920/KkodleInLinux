@@ -23,7 +23,7 @@ void onGame(char *path)
 {
 
     int menu = 0;
-    int opponent = 1;
+    int opponent_result = 1;
     menu = printMenu(16, 14);
 
     Word *answer;
@@ -64,9 +64,9 @@ void onGame(char *path)
 
     printMainBackground();
 
-    for(int i=0;i<6;i++){
-        printWord(answer[i],2 + 0 * 7,6 + 13 * i);
-    }
+    // for(int i=0;i<6;i++){
+    //     printWord(answer[i],2 + 0 * 7,6 + 13 * i);
+    // }
 
     while (round < 6)
     {
@@ -144,10 +144,12 @@ void onGame(char *path)
     }
 
     // 기다리는것
+    //result 보내고
+    //opponent_result에 값 받기
 
     if (menu == 1)
     {
-        if (opponent == 0)
+        if (opponent_result == 0)
         {
             clear();
             move(25, 35);
@@ -159,7 +161,7 @@ void onGame(char *path)
         {
             clear();
             move(25, 30);
-            printw("상대방은 %d번만에 성공하였습니다.", opponent);
+            printw("상대방은 %d번만에 성공하였습니다.", opponent_result);
             refresh();
             getch();
         }
