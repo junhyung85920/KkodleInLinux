@@ -46,10 +46,15 @@ void onGame(char *path)
             printError("Failed to connect to the server.");
             return;
         }
-        //기다리는것
+        // 기다리는것
         opponent_answer = makeAnswer();
         sendAnswer(sockfd, opponent_answer);
         receiveAnswer(sockfd, answer);
+        clear();
+        move(25, 40);
+        printw("게임 시작");
+        refresh();
+        sleep(2);
         // opponent_answer = temp;          //opponent_answer 사용자가 만든 정답이 들어갈것입니다. / opponent_answer 넘기세요. 그리고 answer에다가 값을 받으세요.
     }
     else
@@ -57,7 +62,6 @@ void onGame(char *path)
         answer = createAnswer();
     }
 
-    
     printMainBackground();
 
     while (round < 6)
@@ -135,7 +139,7 @@ void onGame(char *path)
         onSuccess(result);
     }
 
-    //기다리는것
+    // 기다리는것
 
     if (menu == 1)
     {
@@ -814,9 +818,8 @@ Word *makeAnswer()
 
     clear();
     move(25, 40);
-    printw("게임 시작");
+    printw("대기중");
     refresh();
-    sleep(2);
 
     return w;
 }
