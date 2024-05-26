@@ -16,6 +16,8 @@
 #define BUFFER_SIZE 7
 #define oops(msg) {perror(msg); exit(1);}
 
+//Usage : gcc -o server server.c -lpthread
+
 int client_sockets[2]; 
 int connections = 0;  
 int running = 1;
@@ -68,12 +70,12 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    bzero((void*)&server, sizeof(server));
-    gethostname(hostname, HOSTLEN);
-    host = gethostbyname(hostname);
+    // bzero((void*)&server, sizeof(server));
+    // gethostname(hostname, HOSTLEN);
+    // host = gethostbyname(hostname);
 
-    bcopy((void*)host->h_addr, (void*)&server.sin_addr, host->h_length);
-    // server.sin_addr.s_addr = INADDR_ANY;
+    // bcopy((void*)host->h_addr, (void*)&server.sin_addr, host->h_length);
+    server.sin_addr.s_addr = INADDR_ANY;
     server.sin_family = AF_INET;
     server.sin_port = htons(PORT);
 
