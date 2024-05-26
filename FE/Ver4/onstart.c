@@ -123,7 +123,7 @@ int onStart(){
     char c;
     int height, width;
 
-    printGgodle(5,25);
+    printGgodle(1,25);
 
     int row=24;
     int col=17;
