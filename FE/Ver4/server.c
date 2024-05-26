@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     int socket_desc, new_socket, c, connections = 0;
     struct sockaddr_in server, client;
     struct hostent *host;
-    char hostname[HOSTLEN];
+    Word hostname[HOSTLEN];
     pthread_t sniffer_thread;
 
 
