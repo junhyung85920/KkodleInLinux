@@ -8,19 +8,19 @@
  */
 
 void printGgodle(int row, int col){
-    move(row+1,col+1);
+    move(row+2,col);
     printw(" %s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",RightHalf,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,LeftHalf);
-    move(row+2,col+1);
+    move(row+3,col);
     printw("      %s%s%s    %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(row+3,col+1);
+    move(row+4,col);
     printw("      %s%s%s    %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(row+4,col+1);
+    move(row+5,col);
     printw("      %s%s%s    %s%s%s",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(row+6,col+3);
+    move(row+7,col+1);
     printw("       %s%s%s    ",RightHalf,Full,LeftHalf,RightHalf,Full,LeftHalf);
-    move(row+7,col+3);
+    move(row+8,col+1);
     printw("       %s%s%s        ",RightHalf,Full,LeftHalf);
-    move(row+8,col-1);
+    move(row+9,col-1);
     printw(" %s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s",Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full,Full);
 
 
