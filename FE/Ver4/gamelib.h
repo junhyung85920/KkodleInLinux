@@ -8,6 +8,10 @@
 #include <unistd.h>
 #include "errlib.h"
 
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
+
 
 typedef enum {BLACK=0,RED,GREEN,YELLOW} Color;                               //문자 색상이 정의되어 있는 변수
 
