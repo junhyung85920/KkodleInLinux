@@ -18,12 +18,15 @@ void onAnswer();
 int connectToServer(const char *server_ip, int server_port);
 int sendAnswer(int sockfd, Word *answer);
 int receiveAnswer(int sockfd, Word *answer);
+//result communication
+int sendResult(int sockfd, int result);
+int receiveResult(int sockfd, int *result);
 
 void onGame(char *path)
 {
 
     int menu = 0;
-    int opponent_result = 1;
+    int opponent = 1;
     menu = printMenu(16, 14);
 
     Word *answer;
@@ -31,6 +34,7 @@ void onGame(char *path)
     Color after[6] = {RED, RED, RED, RED, RED, RED};
     int count = 0, round = 0;
     int result = -1;
+    int opponent_result=-1;
     char c;
     Word w[6];
     Word temp[6] = {D, K, S, S, U, D};
@@ -48,8 +52,10 @@ void onGame(char *path)
         }
         // 기다리는것
         opponent_answer = makeAnswer();
+
         sendAnswer(sockfd, opponent_answer);
         receiveAnswer(sockfd, answer);
+
         clear();
         move(25, 40);
         printw("게임 시작");
@@ -64,9 +70,9 @@ void onGame(char *path)
 
     printMainBackground();
 
-    // for(int i=0;i<6;i++){
-    //     printWord(answer[i],2 + 0 * 7,6 + 13 * i);
-    // }
+    for(int i=0;i<6;i++){
+        printWord(answer[i],2 + 0 * 7,6 + 13 * i);
+    }
 
     while (round < 6)
     {
@@ -144,12 +150,15 @@ void onGame(char *path)
     }
 
     // 기다리는것
-    //result 보내고
-    //opponent_result에 값 받기
 
     if (menu == 1)
     {
-        if (opponent_result == 0)
+
+        //성공 횟수 교환 및 상대방 결과 출력
+        sendResult(sockfd, result);
+        receiveResult(sockfd, &opponent_result);
+
+        if (opponent_result == -1)
         {
             clear();
             move(25, 35);
@@ -209,7 +218,7 @@ int sendAnswer(int sockfd, Word *answer)
 {
     if (send(sockfd, answer, sizeof(Word) * 6, 0) < 0)
     {
-        perror("send");
+        perror("send answer");
         return -1;
     }
     return 0;
@@ -219,12 +228,32 @@ int receiveAnswer(int sockfd, Word *answer)
 {
     if (recv(sockfd, answer, sizeof(Word) * 6, 0) < 0)
     {
-        perror("recv");
+        perror("recv answer");
         return -1;
     }
     return 0;
 }
 
+//성공 횟수 교환 함수
+int sendResult(int sockfd, int result)
+{
+    if (send(sockfd, &result, sizeof(result), 0) < 0)
+    {
+        perror("send result");
+        return -1;
+    }
+    return 0;
+}
+
+int receiveResult(int sockfd, int *result)
+{
+    if (recv(sockfd, result, sizeof(*result), 0) < 0)
+    {
+        perror("recv result");
+        return -1;
+    }
+    return 0;
+}
 /////////
 
 int printMenu(int row, int col)
