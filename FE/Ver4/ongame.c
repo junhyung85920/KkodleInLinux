@@ -158,7 +158,7 @@ void onGame(char *path)
         sendResult(sockfd, result);
         receiveResult(sockfd, &opponent_result);
 
-        if (opponent_result == -1)
+        if (ntohl(opponent_result) == -1)
         {
             clear();
             move(25, 35);
@@ -170,7 +170,7 @@ void onGame(char *path)
         {
             clear();
             move(25, 30);
-            printw("상대방은 %d번만에 성공하였습니다.", opponent_result);
+            printw("상대방은 %d번만에 성공하였습니다.", ntohl(opponent_result));
             refresh();
             getch();
         }
@@ -238,7 +238,8 @@ int receiveAnswer(int sockfd, Word *answer)
 //성공 횟수 교환 함수
 int sendResult(int sockfd, int result)
 {
-    if (send(sockfd, &result, sizeof(result), 0) < 0)
+    int converted_result = htonl(result);
+    if (send(sockfd, &converted_result, sizeof(converted_result), 0) < 0)
     {
         perror("send result");
         return -1;
@@ -248,6 +249,7 @@ int sendResult(int sockfd, int result)
 
 int receiveResult(int sockfd, int *result)
 {
+
     if (recv(sockfd, result, sizeof(*result), 0) < 0)
     {
         perror("recv result");
