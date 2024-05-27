@@ -1,6 +1,7 @@
 
 
 #include "drawlib.h"
+#include <pthread.h>
 
 // 이거 함수 두개 합칠 수 있을듯여?
 //  chckRightWord()에 checkColor() 구현함
@@ -18,15 +19,26 @@ void onAnswer();
 int connectToServer(const char *server_ip, int server_port);
 int sendAnswer(int sockfd, Word *answer);
 int receiveAnswer(int sockfd, Word *answer);
-//result communication
-int sendResult(int sockfd, int result);
-int receiveResult(int sockfd, int *result);
+
+void* recv_thread(void* arg){
+    printf("recv_thread\n");
+    /*
+    int sockfd = *(int*)arg;
+    Word answer[6];
+    while(1){
+        if(receiveAnswer(sockfd, answer) == 0){
+            break;
+        }
+    }
+    */
+    
+}
 
 void onGame(char *path)
 {
 
     int menu = 0;
-    int opponent = 1;
+    int opponent_result;
     menu = printMenu(16, 14);
 
     Word *answer;
@@ -34,16 +46,17 @@ void onGame(char *path)
     Color after[6] = {RED, RED, RED, RED, RED, RED};
     int count = 0, round = 0;
     int result = -1;
-    int opponent_result=-1;
     char c;
     Word w[6];
     Word temp[6] = {D, K, S, S, U, D};
 
+    pthread_t tid;
     int sockfd = -1;
 
     if (menu == 1)
     { // multi일때
         // opponent_answer = makeAnswer();
+        answer = (Word *)malloc(sizeof(Word) * 6);
         sockfd = connectToServer(path, 8888); // Replace with actual server IP and port
         if (sockfd < 0)
         {
@@ -51,11 +64,21 @@ void onGame(char *path)
             return;
         }
         // 기다리는것
-        opponent_answer = makeAnswer();
+        printw("sockfd: %d\n", sockfd);
 
+        opponent_answer = makeAnswer();
+        pthread_create(&tid, NULL, recv_thread, &sockfd);
         sendAnswer(sockfd, opponent_answer);
         receiveAnswer(sockfd, answer);
+        /*
+        while(1){
+            if(receiveAnswer(sockfd, answer) != 0){
+                break;
+            }
+        }
+        */
 
+        
         clear();
         move(25, 40);
         printw("게임 시작");
@@ -70,9 +93,9 @@ void onGame(char *path)
 
     printMainBackground();
 
-    for(int i=0;i<6;i++){
-        printWord(answer[i],2 + 0 * 7,6 + 13 * i);
-    }
+    // for(int i=0;i<6;i++){
+    //     printWord(answer[i],2 + 0 * 7,6 + 13 * i);
+    // }
 
     while (round < 6)
     {
@@ -148,17 +171,21 @@ void onGame(char *path)
     {
         onSuccess(result);
     }
-
     // 기다리는것
+    //result 보내고
+    //opponent_result에 값 받기
+    result++;
+    int converted_result = htonl(result);
+    if(send(sockfd, &converted_result, sizeof(converted_result), 0) < 0){
+        perror("send failed");
+    }
+    if(recv(sockfd, &opponent_result, sizeof(opponent_result), 0) < 0){
+        perror("int recv failed");
+    }
 
     if (menu == 1)
     {
-
-        //성공 횟수 교환 및 상대방 결과 출력
-        sendResult(sockfd, result);
-        receiveResult(sockfd, &opponent_result);
-
-        if (ntohl(opponent_result) == -1)
+        if (ntohl(opponent_result) == 0)
         {
             clear();
             move(25, 35);
@@ -192,17 +219,22 @@ int connectToServer(const char *server_ip, int server_port)
         perror("socket");
         return -1;
     }
-
+    struct hostent *host = gethostbyname(server_ip);
     struct sockaddr_in serv_addr;
     memset(&serv_addr, 0, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(server_port);
+    bcopy((void*)host->h_addr, (void*)&serv_addr.sin_addr, host->h_length);
+
+    /*
     if (inet_pton(AF_INET, server_ip, &serv_addr.sin_addr) <= 0)
     {
         perror("inet_pton");
         close(sockfd);
         return -1;
     }
+    */
+    
 
     if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
     {
@@ -218,7 +250,7 @@ int sendAnswer(int sockfd, Word *answer)
 {
     if (send(sockfd, answer, sizeof(Word) * 6, 0) < 0)
     {
-        perror("send answer");
+        perror("send");
         return -1;
     }
     return 0;
@@ -226,37 +258,15 @@ int sendAnswer(int sockfd, Word *answer)
 
 int receiveAnswer(int sockfd, Word *answer)
 {
-    answer = (Word *)malloc(sizeof(Word) * 6);
     if (recv(sockfd, answer, sizeof(Word) * 6, 0) < 0)
     {
-        perror("recv answer");
+        printf("recv failed\n");
+        perror("recv");
         return -1;
     }
     return 0;
 }
 
-//성공 횟수 교환 함수
-int sendResult(int sockfd, int result)
-{
-    int converted_result = htonl(result);
-    if (send(sockfd, &converted_result, sizeof(converted_result), 0) < 0)
-    {
-        perror("send result");
-        return -1;
-    }
-    return 0;
-}
-
-int receiveResult(int sockfd, int *result)
-{
-
-    if (recv(sockfd, result, sizeof(*result), 0) < 0)
-    {
-        perror("recv result");
-        return -1;
-    }
-    return 0;
-}
 /////////
 
 int printMenu(int row, int col)
