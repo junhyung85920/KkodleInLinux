@@ -226,6 +226,7 @@ int sendAnswer(int sockfd, Word *answer)
 
 int receiveAnswer(int sockfd, Word *answer)
 {
+    answer = (Word *)malloc(sizeof(Word) * 6);
     if (recv(sockfd, answer, sizeof(Word) * 6, 0) < 0)
     {
         perror("recv answer");
