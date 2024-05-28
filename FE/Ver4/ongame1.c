@@ -60,28 +60,19 @@ void onGame(char *path)
 int connectToServer(const char *server_ip, int server_port)
 {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in server_addr;
+
     if (sockfd < 0)
     {
         perror("socket");
         return -1;
     }
-    struct hostent *host = gethostbyname(server_ip);
-    struct sockaddr_in serv_addr;
-    memset(&serv_addr, 0, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(server_port);
-    bcopy((void *)host->h_addr, (void *)&serv_addr.sin_addr, host->h_length);
 
-    /*
-    if (inet_pton(AF_INET, server_ip, &serv_addr.sin_addr) <= 0)
-    {
-        perror("inet_pton");
-        close(sockfd);
-        return -1;
-    }
-    */
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(server_port);
+    server_addr.sin_addr.s_addr = inet_addr(server_ip);
 
-    if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    if (connect(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1)
     {
         perror("connect");
         close(sockfd);
