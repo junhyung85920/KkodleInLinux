@@ -57,6 +57,7 @@ void onGame(char *path)
 
     return;
 }
+
 int connectToServer(const char *server_ip, int server_port)
 {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);

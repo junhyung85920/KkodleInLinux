@@ -17,7 +17,8 @@ void onGame(char *path)
 
     int menu = 0, opponent_result=2, count = 0, round = 0, result = -1;
     char c;
-    Word *answer, *answer2;
+    Word *answer = (Word*)malloc(sizeof(Word) * 6);
+    Word *answer2 = (Word*)malloc(sizeof(Word) * 6);
     Word opponent_answer[6] = {D, K, S, S, U, D};
     Word opponent_answer2[6] = {Q,K,W,N,Z,K};
 
@@ -42,6 +43,7 @@ void onGame(char *path)
     }
 
     sendAnswer(sockfd, opponent_answer2);
+    
     receiveAnswer(sockfd, answer2);
 
     for (int i = 0; i < 6; i++)
