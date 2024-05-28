@@ -35,41 +35,31 @@ void onGame(char *path)
     char c;
     Word w[6];
     Word temp[6] = {D, K, S, S, U, D};
+    int converted_result = 0;
 
     pthread_t tid;
     int sockfd = -1;
 
     if (menu == 1)
     { // multi일때
-        // opponent_answer = makeAnswer();
         answer = (Word *)malloc(sizeof(Word) * 6);
-        sockfd = connectToServer(path, 8888); // Replace with actual server IP and port
+        sockfd = connectToServer(path, 8888);
         if (sockfd < 0)
         {
             printError("Failed to connect to the server.");
             return;
         }
-        // 기다리는것
         printw("sockfd: %d\n", sockfd);
 
         opponent_answer = makeAnswer();
         sendAnswer(sockfd, opponent_answer);
         receiveAnswer(sockfd, answer);
-        /*
-        while(1){
-            if(receiveAnswer(sockfd, answer) != 0){
-                break;
-            }
-        }
-        */
 
-        
         clear();
         move(25, 40);
         printw("게임 시작");
         refresh();
         sleep(2);
-        // opponent_answer = temp;          //opponent_answer 사용자가 만든 정답이 들어갈것입니다. / opponent_answer 넘기세요. 그리고 answer에다가 값을 받으세요.
     }
     else
     { // single일때
@@ -77,10 +67,6 @@ void onGame(char *path)
     }
 
     printMainBackground();
-
-    // for(int i=0;i<6;i++){
-    //     printWord(answer[i],2 + 0 * 7,6 + 13 * i);
-    // }
 
     while (round < 6)
     {
@@ -98,7 +84,7 @@ void onGame(char *path)
                         changeColor(after, w, round);
                         if (checkCorrect(after))
                         {
-                            result = round;
+                            result = round+1;
                             break;
                         }
                     }
@@ -156,14 +142,14 @@ void onGame(char *path)
     {
         onSuccess(result);
     }
-    // 기다리는것
-    //result 보내고
-    //opponent_result에 값 받기
-    int converted_result = htonl(result);
-    if(send(sockfd, &converted_result, sizeof(converted_result), 0) < 0){
+
+    converted_result = htonl(result);
+    if (send(sockfd, &converted_result, sizeof(converted_result), 0) < 0)
+    {
         perror("send failed");
     }
-    if(recv(sockfd, &opponent_result, sizeof(opponent_result), 0) < 0){
+    if (recv(sockfd, &opponent_result, sizeof(opponent_result), 0) < 0)
+    {
         perror("int recv failed");
     }
     opponent_result = ntohl(opponent_result);
@@ -198,7 +184,7 @@ void onGame(char *path)
 }
 int connectToServer(const char *server_ip, int server_port)
 {
-       int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in server_addr;
 
     if (sockfd < 0)
@@ -211,7 +197,7 @@ int connectToServer(const char *server_ip, int server_port)
     server_addr.sin_port = htons(server_port);
     server_addr.sin_addr.s_addr = inet_addr(server_ip);
 
-    if (connect(sockfd, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1)
+    if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
     {
         perror("connect");
         close(sockfd);
@@ -233,7 +219,7 @@ int sendAnswer(int sockfd, Word *answer)
 
 int receiveAnswer(int sockfd, Word *answer)
 {
-    answer = (Word*)malloc(sizeof(Word) * 6);
+    answer = (Word *)malloc(sizeof(Word) * 6);
     if (recv(sockfd, answer, sizeof(Word) * 6, 0) < 0)
     {
         printf("recv failed\n");

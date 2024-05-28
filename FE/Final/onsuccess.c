@@ -63,7 +63,7 @@ void onSuccess(int score){
     clear();
     printSuccess(10,15);
     move(31,43);
-    printw("횟수 : %d", score+1);
+    printw("횟수 : %d", score);
     refresh();
     getch();
 }
