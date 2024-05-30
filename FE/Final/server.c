@@ -6,7 +6,9 @@
 #include <arpa/inet.h>
 
 #define PORT 8888
-#define MAX_CLIENTS 2
+#define MAX_PLAYERS 4
+#define MAX_PLAYERS_PER_GAME 2
+#define MAX_GAME_NUM MAX_PLAYERS / 2
 #define ARRAY_SIZE 6
 
 typedef enum {
@@ -17,22 +19,36 @@ typedef struct {
     int socket;
     int index;
     int is_first_message;
+    int game_num;
 } ClientData;
 
-int client_sockets[MAX_CLIENTS];
+int client_sockets[MAX_PLAYERS];
 pthread_mutex_t lock;
-int messages_received = 0;
-Word word_arrays[MAX_CLIENTS][ARRAY_SIZE];
-int int_values[MAX_CLIENTS];
+int messages_received[MAX_GAME_NUM];
+Word word_arrays[MAX_GAME_NUM][MAX_PLAYERS][ARRAY_SIZE];
+int int_values[MAX_GAME_NUM][MAX_PLAYERS];
+//int is_first_message[MAX_GAME_NUM];
+int current_players = 0;
+
 
 
 // thread 실행 함수
 void *handle_client(void *arg) {
     ClientData *client_data = (ClientData *)arg;
     int client_socket = client_data->socket;
-    int index = client_data->index;
+    int index = client_data->index;     // index + 1 -> client number
+    int opponent;
     int is_first_message = client_data->is_first_message;
+    int game_num = client_data->game_num;
     free(client_data);
+    
+
+    if((index % 2) == 0){
+        opponent = index + 1;
+    }
+    else{
+        opponent = index - 1;
+    }
 
     while (1) {
         if (is_first_message) {
@@ -41,42 +57,44 @@ void *handle_client(void *arg) {
 
             if (recv(client_socket, buffer, sizeof(buffer), 0) <= 0) {
                 printf("Client %d disconnected\n", index + 1);
+                current_players--;
+                printf("current_players: %d\n", current_players);
                 close(client_socket);
                 pthread_mutex_lock(&lock);
                 client_sockets[index] = 0;
                 pthread_mutex_unlock(&lock);
                 return NULL;
             }
-
+            
             pthread_mutex_lock(&lock);
-            memcpy(word_arrays[index], buffer, sizeof(buffer));
-            messages_received++;
+            memcpy(word_arrays[game_num][index], buffer, sizeof(buffer));
+            messages_received[game_num]++;
             printf("Received word array from Client %d: ", index + 1);
             for (int i = 0; i < ARRAY_SIZE; i++) {
-                printf("%d ", word_arrays[index][i]);
+                printf("%d ", word_arrays[game_num][index][i]);
             }
             printf("\n");
 
-            if (messages_received == MAX_CLIENTS) {
+            if (messages_received[game_num] == MAX_PLAYERS_PER_GAME) {
                 // when two clients send word arrays
-                for (int i = 0; i < MAX_CLIENTS; ++i) {
-                    int other_index = (i + 1) % MAX_CLIENTS;
-                    send(client_sockets[i], word_arrays[other_index], sizeof(word_arrays[other_index]), 0);
-                    printf("Sent word array from Client %d to Client %d\n", other_index + 1, i + 1);
-                }
-                messages_received = 0; // init message count
-                memset(word_arrays, 0, sizeof(word_arrays)); // init buffer(word)
-
-                // is_first_message -> false로 설정 (다음 메시지부터는 int value를 받음)
-                for (int i = 0; i < MAX_CLIENTS; ++i) {
-                    client_data->is_first_message = 0;
-                }
+                send(client_sockets[index], word_arrays[game_num][opponent], sizeof(word_arrays[game_num][opponent]), 0);
+                printf("Sent word array from Client %d to Client %d\n", opponent + 1, index + 1);
+                send(client_sockets[opponent], word_arrays[game_num][index], sizeof(word_arrays[game_num][index]), 0);
+                printf("Sent word array from Client %d to Client %d\n", index + 1, opponent + 1);
+                
+                messages_received[game_num] = 0; // init message count
+                memset(word_arrays[game_num], 0, sizeof(word_arrays[game_num])); // init buffer(word)
+                is_first_message = 0;
+                
             }
             pthread_mutex_unlock(&lock);
+
         } else {
             int value;
             if (recv(client_socket, &value, sizeof(value), 0) <= 0) {
                 printf("Client %d disconnected\n", index + 1);
+                current_players--;
+                printf("current_players: %d\n", current_players);
                 close(client_socket);
                 pthread_mutex_lock(&lock);
                 client_sockets[index] = 0;
@@ -85,20 +103,22 @@ void *handle_client(void *arg) {
             }
 
             pthread_mutex_lock(&lock);
-            int_values[index] = ntohl(value);
-            printf("Received int value from Client %d: %d\n", index + 1, int_values[index]);
-            messages_received++;
+            int_values[game_num][index] = ntohl(value);
+            printf("Received int value from Client %d: %d\n", index + 1, int_values[game_num][index]);
+            messages_received[game_num]++;
 
-            if (messages_received == MAX_CLIENTS) {
+            if (messages_received[game_num] == MAX_PLAYERS_PER_GAME) {
                 // when two clients send int values
-                for (int i = 0; i < MAX_CLIENTS; ++i) {
-                    int other_index = (i + 1) % MAX_CLIENTS;
-                    int send_value = htonl(int_values[other_index]);
-                    send(client_sockets[i], &send_value, sizeof(send_value), 0);
-                    printf("Sent int value from Client %d to Client %d: %d\n", other_index + 1, i + 1, int_values[other_index]);
-                }
-                messages_received = 0; // init message count 
-                memset(int_values, 0, sizeof(int_values)); // init buffer(int)
+                int send_value = htonl(int_values[game_num][opponent]);
+                send(client_sockets[index], &send_value, sizeof(send_value), 0);
+                printf("Sent int value from Client %d to Client %d: %d\n", opponent + 1, index + 1, int_values[game_num][opponent]);
+
+                send_value = htonl(int_values[game_num][index]);
+                send(client_sockets[opponent], &send_value, sizeof(send_value), 0);
+                printf("Sent int value from Client %d to Client %d: %d\n", index + 1, opponent + 1, int_values[game_num][index]);
+                
+                messages_received[game_num] = 0; // init message count 
+                memset(int_values[game_num], 0, sizeof(int_values[game_num])); // init buffer(int)
             }
             pthread_mutex_unlock(&lock);
         }
@@ -110,8 +130,13 @@ int main() {
     struct sockaddr_in address;
     int addrlen = sizeof(address);
 
+    // init num of message_received
+    for(int i = 0; i < MAX_GAME_NUM; i++){
+        messages_received[i] = 0;
+    }
+
     // init array of client sockets
-    for (int i = 0; i < MAX_CLIENTS; ++i) {
+    for (int i = 0; i < MAX_PLAYERS; ++i) {
         client_sockets[i] = 0;
     }
 
@@ -154,15 +179,20 @@ int main() {
             perror("accept");
             exit(EXIT_FAILURE);
         }
-
         pthread_mutex_lock(&lock);
+        current_players++;
+        printf("current_players: %d\n", current_players);
 
         // add new socket to array of client sockets if not full
-        int i;
-        for (i = 0; i < MAX_CLIENTS; ++i) {
+        int i, j;
+        
+        for (i = 0; i < MAX_PLAYERS; ++i) {
             if (client_sockets[i] == 0) {
                 client_sockets[i] = new_socket;
-                printf("Client %d connected\n", i + 1);
+                printf("Client %d connected", i + 1);
+
+
+
 
                 // client thread 생성
                 pthread_t thread_id;
@@ -170,6 +200,8 @@ int main() {
                 client_data->socket = new_socket;
                 client_data->index = i;
                 client_data->is_first_message = 1;
+                client_data->game_num = ((current_players - 1) / 2) + 1;  // 게임방 번호 부여
+                printf("(room: %d)\n", client_data->game_num);
 
                 if (pthread_create(&thread_id, NULL, handle_client, (void *)client_data) != 0) {
                     perror("pthread_create");
