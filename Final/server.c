@@ -5,7 +5,6 @@
 #include <pthread.h>
 #include <arpa/inet.h>
 
-#define PORT 8888
 #define MAX_PLAYERS 4
 #define MAX_PLAYERS_PER_GAME 2
 #define MAX_GAME_NUM MAX_PLAYERS / 2
@@ -68,15 +67,14 @@ void *handle_client(void *arg) {
         pthread_mutex_lock(&lock);
         memcpy(word_arrays[game_num][index], buffer, sizeof(buffer));
         messages_received[game_num]++;
-        printf("Received word array from Client %d: ", index + 1);
+        printf("Received word array from Client %d", index + 1);
         printf("\n");
 
         if (messages_received[game_num] == MAX_PLAYERS_PER_GAME) {
             // when two clients send word arrays
             send(client_sockets[index], word_arrays[game_num][opponent], sizeof(word_arrays[game_num][opponent]), 0);
-            printf("exchanged from Client %d to Client %d\n", opponent + 1, index + 1);
             send(client_sockets[opponent], word_arrays[game_num][index], sizeof(word_arrays[game_num][index]), 0);
-            printf("Sent word array from Client %d to Client %d\n", index + 1, opponent + 1);
+            printf("exchanged infomation ( Client %d to Client %d )\n", opponent + 1, index + 1);
             
             messages_received[game_num] = 0; // init message count
             memset(word_arrays[game_num][index], 0, sizeof(word_arrays[game_num][index])); // init buffer(index)
@@ -87,8 +85,12 @@ void *handle_client(void *arg) {
     }
 }
 
-int main() {
-    int server_fd, new_socket;
+int main(int argc, char* argv[]) {
+    if(argc != 2){
+        printf("Usage : %s [port]\n", argv[0]);
+        return 0;
+    }
+    int server_fd, new_socket, port_num = atoi(argv[1]);
     struct sockaddr_in address;
     int addrlen = sizeof(address);
 
@@ -118,7 +120,7 @@ int main() {
     // address struct 설정
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
+    address.sin_port = htons(port_num);
 
     // bind
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {

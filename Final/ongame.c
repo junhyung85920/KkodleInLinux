@@ -19,7 +19,7 @@ int sendAnswer(int sockfd, Word *answer);
 int receiveAnswer(int sockfd, Word *answer);
 
 
-void onGame(char *path) {
+void onGame(char *path, char *port) {
     int menu = 0;
     int opponent_result;
     int count = 0, round = 0;
@@ -39,7 +39,7 @@ void onGame(char *path) {
     if (menu == 1)
     { // multi일때
         answer = (Word *)malloc(sizeof(Word) * 6);
-        sockfd = connectToServer(path, 8888);
+        sockfd = connectToServer(path, atoi(port));
         if (sockfd < 0)
         {
             printError("Failed to connect to the server.");
@@ -115,6 +115,11 @@ void onGame(char *path) {
                 if (count == 6)
                 {
                     printError("더 이상 입력할 수 없습니다.");
+                }
+                else
+                {
+                    w[count] = inputWord(c);
+                    printWord(w[count], 2 + round * 7, 6 + 13 * count++);
                 }
             }
             else
@@ -426,13 +431,6 @@ int checkRightWord(Word input[], Word answer[], Color after[])
                 if (cmp(input, token))
                 { // if input is in the file
                     // compare and set color array "after"
-
-                    // 정답 출력 부분 (확인용)
-                    for (int i = 0; i < 6; i++)
-                    {
-                        printw("%c", getWord(answer[i]));
-                    }
-
                     for (int i = 0; i < 6; i++)
                     {
                         for (int j = 0; j < 6; j++)

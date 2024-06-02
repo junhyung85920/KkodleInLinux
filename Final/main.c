@@ -10,6 +10,10 @@
 void init();
 
 int main(int argc, char* argv[]) {
+    if(argc != 3){
+        printf("Usage : %s [path] [port]\n", argv[0]);
+        return 0;
+    }
     
     init();
     int m = 1;
@@ -23,7 +27,7 @@ int main(int argc, char* argv[]) {
             onHelp();
         }
         else{   //game
-            onGame(argv[1]);
+            onGame(argv[1], argv[2]);
         }
     }
     

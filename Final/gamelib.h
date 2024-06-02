@@ -18,7 +18,7 @@ typedef enum {BLACK=0,RED,GREEN,YELLOW} Color;                               //�
 
 typedef enum{R=20, S,E,F,A,Q,T,D,W,C,Z,X,V,G,K,I,J,U,H,Y,N,B,M,L} Word;                         //문자가 정의되어 있는 변수
 
-void onGame(char* path);
+void onGame(char* path, char* port);
 
 int onStart();
 
