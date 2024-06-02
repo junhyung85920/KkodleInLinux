@@ -49,7 +49,6 @@ void *handle_client(void *arg) {
         opponent = index - 1;
     }
 
-    printf("Client %d vs Client %d\n", index + 1, opponent + 1);
     while (1) {
         Word buffer[ARRAY_SIZE];
         memset(buffer, 0, sizeof(buffer));
@@ -67,14 +66,14 @@ void *handle_client(void *arg) {
         pthread_mutex_lock(&lock);
         memcpy(word_arrays[game_num][index], buffer, sizeof(buffer));
         messages_received[game_num]++;
-        printf("Received word array from Client %d", index + 1);
+        printf("(room%d) : Received word array from Client %d", game_num, index + 1);
         printf("\n");
 
         if (messages_received[game_num] == MAX_PLAYERS_PER_GAME) {
             // when two clients send word arrays
             send(client_sockets[index], word_arrays[game_num][opponent], sizeof(word_arrays[game_num][opponent]), 0);
             send(client_sockets[opponent], word_arrays[game_num][index], sizeof(word_arrays[game_num][index]), 0);
-            printf("exchanged infomation ( Client %d to Client %d )\n", opponent + 1, index + 1);
+            printf("(room%d) : exchanged infomation ( Client %d to Client %d )\n", game_num, opponent + 1, index + 1);
             
             messages_received[game_num] = 0; // init message count
             memset(word_arrays[game_num][index], 0, sizeof(word_arrays[game_num][index])); // init buffer(index)
@@ -154,7 +153,6 @@ int main(int argc, char* argv[]) {
         for (i = 0; i < MAX_PLAYERS; ++i) {
             if (client_sockets[i] == 0) {
                 client_sockets[i] = new_socket;
-                printf("Client %d connected", i + 1);
 
                 // client thread 생성
                 pthread_t thread_id;
@@ -163,7 +161,7 @@ int main(int argc, char* argv[]) {
                 client_data->index = i;
                 client_data->is_first_message = 1;
                 client_data->game_num = ((current_players - 1) / 2) + 1;  // 게임방 번호 부여
-                printf("(room: %d)\n", client_data->game_num);
+                printf("Client %d connected in (room%d)", i + 1, client_data->game_num);
 
                 if (pthread_create(&thread_id, NULL, handle_client, (void *)client_data) != 0) {
                     perror("pthread_create");
@@ -178,9 +176,6 @@ int main(int argc, char* argv[]) {
         }
         pthread_mutex_unlock(&lock);
     }
-
-
-
 
     close(server_fd);
     pthread_mutex_destroy(&lock);
