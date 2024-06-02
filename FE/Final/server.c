@@ -83,8 +83,8 @@ void *handle_client(void *arg) {
             printf("Sent word array from Client %d to Client %d\n", index + 1, opponent + 1);
             
             messages_received[game_num] = 0; // init message count
-            memset(word_arrays[game_num], 0, sizeof(word_arrays[game_num])); // init buffer(word)
-            
+            memset(word_arrays[game_num][index], 0, sizeof(word_arrays[game_num][index])); // init buffer(word)
+            memset(word_arrays[game_num][opponent], 0, sizeof(word_arrays[game_num][opponent])); // init buffer(word)
         }
         pthread_mutex_unlock(&lock);
 
