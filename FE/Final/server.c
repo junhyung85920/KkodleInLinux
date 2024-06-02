@@ -6,7 +6,9 @@
 #include <arpa/inet.h>
 
 #define PORT 8888
-#define MAX_CLIENTS 2
+#define MAX_PLAYERS 4
+#define MAX_PLAYERS_PER_GAME 2
+#define MAX_GAME_NUM MAX_PLAYERS / 2
 #define ARRAY_SIZE 6
 
 typedef enum {
@@ -17,64 +19,98 @@ typedef struct {
     int socket;
     int index;
     int is_first_message;
+    int game_num;
 } ClientData;
 
-int client_sockets[MAX_CLIENTS];
+int client_sockets[MAX_PLAYERS];
 pthread_mutex_t lock;
-int messages_received = 0;
-Word word_arrays[MAX_CLIENTS][ARRAY_SIZE];
-int int_values[MAX_CLIENTS];
+int messages_received[MAX_GAME_NUM];
+Word word_arrays[MAX_GAME_NUM][MAX_PLAYERS][ARRAY_SIZE];
+int int_values[MAX_GAME_NUM][MAX_PLAYERS];
+int is_first_message[MAX_GAME_NUM];
+int current_players = 0;
 
+
+
+// thread 실행 함수
 void *handle_client(void *arg) {
     ClientData *client_data = (ClientData *)arg;
     int client_socket = client_data->socket;
-    int index = client_data->index;
-    int is_first_message = client_data->is_first_message;
+    int index = client_data->index;     // index + 1 -> client number
+    int opponent;
+    //int first_message = 1;
+    int game_num = client_data->game_num;
     free(client_data);
+    
+
+    if((index % 2) == 0){
+        opponent = index + 1;
+    }
+    else{
+        opponent = index - 1;
+    }
 
     while (1) {
-        if (is_first_message) {
+        if (is_first_message[game_num]) {
             Word buffer[ARRAY_SIZE];
             memset(buffer, 0, sizeof(buffer));
 
             if (recv(client_socket, buffer, sizeof(buffer), 0) <= 0) {
                 printf("Client %d disconnected\n", index + 1);
+                current_players--;
+                printf("current_players: %d\n", current_players);
                 close(client_socket);
                 pthread_mutex_lock(&lock);
                 client_sockets[index] = 0;
                 pthread_mutex_unlock(&lock);
                 return NULL;
             }
-
+            
             pthread_mutex_lock(&lock);
-            memcpy(word_arrays[index], buffer, sizeof(buffer));
-            messages_received++;
+            memcpy(word_arrays[game_num][index], buffer, sizeof(buffer));
+            messages_received[game_num]++;
             printf("Received word array from Client %d: ", index + 1);
             for (int i = 0; i < ARRAY_SIZE; i++) {
-                printf("%d ", word_arrays[index][i]);
+                printf("%d ", word_arrays[game_num][index][i]);
             }
             printf("\n");
 
-            if (messages_received == MAX_CLIENTS) {
-                // 모든 클라이언트로부터 배열을 받았을 때
-                for (int i = 0; i < MAX_CLIENTS; ++i) {
-                    int other_index = (i + 1) % MAX_CLIENTS;
-                    send(client_sockets[i], word_arrays[other_index], sizeof(word_arrays[other_index]), 0);
-                    printf("Sent word array from Client %d to Client %d\n", other_index + 1, i + 1);
-                }
-                messages_received = 0; // 메시지 수신 카운트 초기화
-                memset(word_arrays, 0, sizeof(word_arrays)); // 배열 초기화
-
-                // 모든 클라이언트의 첫 번째 메시지 상태를 false로 설정
-                for (int i = 0; i < MAX_CLIENTS; ++i) {
-                    client_data->is_first_message = 0;
-                }
+            if (messages_received[game_num] == MAX_PLAYERS_PER_GAME) {
+                // when two clients send word arrays
+                send(client_sockets[index], word_arrays[game_num][opponent], sizeof(word_arrays[game_num][opponent]), 0);
+                printf("Sent word array from Client %d to Client %d\n", opponent + 1, index + 1);
+                send(client_sockets[opponent], word_arrays[game_num][index], sizeof(word_arrays[game_num][index]), 0);
+                printf("Sent word array from Client %d to Client %d\n", index + 1, opponent + 1);
+                
+                messages_received[game_num] = 0; // init message count
+                memset(word_arrays[game_num], 0, sizeof(word_arrays[game_num])); // init buffer(word)
+                
             }
             pthread_mutex_unlock(&lock);
+
+            /**
+             * 먼저 정답을 넘긴 client가 next step 으로 넘어가지 않고 word array로 받기 위해 대기중
+             * 반면 이후에 정답을 넘긴 client는 next step 으로 넘어가서 int array로 받기 위해 대기중
+             * 
+             * 아예 result도 word array로 주고받으면 2명이 접속했을 땐 정상작동
+             * 다중접속시 문제가 발생
+            */
+
+            is_first_message[game_num]--;
+            while(is_first_message[game_num] != 0){
+                sleep(1000);
+            }
+            if(is_first_message[game_num] == 0){
+                printf("Client: %d -> goto next message\n", index + 1);
+                continue;
+            }
+
         } else {
             int value;
             if (recv(client_socket, &value, sizeof(value), 0) <= 0) {
                 printf("Client %d disconnected\n", index + 1);
+                current_players--;
+                printf("current_players: %d\n", current_players);
                 close(client_socket);
                 pthread_mutex_lock(&lock);
                 client_sockets[index] = 0;
@@ -83,20 +119,22 @@ void *handle_client(void *arg) {
             }
 
             pthread_mutex_lock(&lock);
-            int_values[index] = ntohl(value);
-            printf("Received int value from Client %d: %d\n", index + 1, int_values[index]);
-            messages_received++;
+            int_values[game_num][index] = ntohl(value);
+            printf("Received int value from Client %d: %d\n", index + 1, int_values[game_num][index]);
+            messages_received[game_num]++;
 
-            if (messages_received == MAX_CLIENTS) {
-                // 모든 클라이언트로부터 값을 받았을 때
-                for (int i = 0; i < MAX_CLIENTS; ++i) {
-                    int other_index = (i + 1) % MAX_CLIENTS;
-                    int send_value = htonl(int_values[other_index]);
-                    send(client_sockets[i], &send_value, sizeof(send_value), 0);
-                    printf("Sent int value from Client %d to Client %d: %d\n", other_index + 1, i + 1, int_values[other_index]);
-                }
-                messages_received = 0; // 메시지 수신 카운트 초기화
-                memset(int_values, 0, sizeof(int_values)); // 값 초기화
+            if (messages_received[game_num] == MAX_PLAYERS_PER_GAME) {
+                // when two clients send int values
+                int send_value = htonl(int_values[game_num][opponent]);
+                send(client_sockets[index], &send_value, sizeof(send_value), 0);
+                printf("Sent int value from Client %d to Client %d: %d\n", opponent + 1, index + 1, int_values[game_num][opponent]);
+
+                send_value = htonl(int_values[game_num][index]);
+                send(client_sockets[opponent], &send_value, sizeof(send_value), 0);
+                printf("Sent int value from Client %d to Client %d: %d\n", index + 1, opponent + 1, int_values[game_num][index]);
+                
+                messages_received[game_num] = 0; // init message count 
+                memset(int_values[game_num], 0, sizeof(int_values[game_num])); // init buffer(int)
             }
             pthread_mutex_unlock(&lock);
         }
@@ -108,36 +146,42 @@ int main() {
     struct sockaddr_in address;
     int addrlen = sizeof(address);
 
-    // 클라이언트 소켓 배열 초기화
-    for (int i = 0; i < MAX_CLIENTS; ++i) {
+    // init num of message_received
+    for(int i = 0; i < MAX_GAME_NUM; i++){
+        messages_received[i] = 0;
+        is_first_message[i] = 2;
+    }
+
+    // init array of client sockets
+    for (int i = 0; i < MAX_PLAYERS; ++i) {
         client_sockets[i] = 0;
     }
 
-    // 뮤텍스 초기화
+    // init mutex
     if (pthread_mutex_init(&lock, NULL) != 0) {
         perror("pthread_mutex_init");
         exit(EXIT_FAILURE);
     }
 
-    // 소켓 파일 디스크립터 생성
+    // socket fd 생성
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
         perror("socket failed");
         exit(EXIT_FAILURE);
     }
 
-    // 주소 구조체 설정
+    // address struct 설정
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
 
-    // 소켓에 주소 바인딩
+    // bind
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
         perror("bind failed");
         close(server_fd);
         exit(EXIT_FAILURE);
     }
 
-    // 수신 대기 모드 설정
+    // listen
     if (listen(server_fd, 3) < 0) {
         perror("listen");
         close(server_fd);
@@ -147,28 +191,31 @@ int main() {
     printf("Waiting for clients...\n");
 
     while (1) {
-        // 새 클라이언트 연결 수락
+        // accept clients
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0) {
             perror("accept");
             exit(EXIT_FAILURE);
         }
-
-        // 뮤텍스 잠금
         pthread_mutex_lock(&lock);
+        current_players++;
+        printf("current_players: %d\n", current_players);
 
-        // 빈 슬롯 찾기
-        int i;
-        for (i = 0; i < MAX_CLIENTS; ++i) {
+        // add new socket to array of client sockets if not full
+        int i, j;
+        
+        for (i = 0; i < MAX_PLAYERS; ++i) {
             if (client_sockets[i] == 0) {
                 client_sockets[i] = new_socket;
-                printf("Client %d connected\n", i + 1);
+                printf("Client %d connected", i + 1);
 
-                // 클라이언트 처리 스레드 생성
+                // client thread 생성
                 pthread_t thread_id;
                 ClientData *client_data = (ClientData *)malloc(sizeof(ClientData));
                 client_data->socket = new_socket;
                 client_data->index = i;
                 client_data->is_first_message = 1;
+                client_data->game_num = ((current_players - 1) / 2) + 1;  // 게임방 번호 부여
+                printf("(room: %d)\n", client_data->game_num);
 
                 if (pthread_create(&thread_id, NULL, handle_client, (void *)client_data) != 0) {
                     perror("pthread_create");
@@ -176,16 +223,16 @@ int main() {
                     client_sockets[i] = 0;
                     free(client_data);
                 } else {
-                    pthread_detach(thread_id); // 스레드가 종료되면 리소스 자동 회수
+                    pthread_detach(thread_id); // 스레드가 종료 시 리소스 thread 해제
                 }
-
                 break;
             }
         }
-
-        // 뮤텍스 잠금 해제
         pthread_mutex_unlock(&lock);
     }
+
+
+
 
     close(server_fd);
     pthread_mutex_destroy(&lock);
