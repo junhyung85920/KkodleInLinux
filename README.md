@@ -42,21 +42,20 @@
 - IDE : Visual Studio Code
 - 사용 언어 : C(게임 개발), Python(단어 데이터 전처리)
 - 버전 관리 : Github
-- 협업 툴 : Discord
+- 협업 툴 : Discord, Github
 
 <br>
 
 ## 실행 방법
-
-- Front : HTML, React, styled-components, Recoil
-- Back-end : 제공된 API 활용
-- 버전 및 이슈관리 : Github, Github Issues, Github Project
-- 협업 툴 : Discord, Notion, Github Wiki
-- 서비스 배포 환경 : Netlify
-- 디자인 : [Figma](https://www.figma.com/file/fAisC2pEKzxTOzet9CfqML/README(oh-my-code)?node-id=39%3A1814)
-- [커밋 컨벤션](https://github.com/likelion-project-README/README/wiki/%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98)
-- [코드 컨벤션](https://github.com/likelion-project-README/README/wiki/%EC%BD%94%EB%93%9C-%EC%BB%A8%EB%B2%A4%EC%85%98)
-- [스프라이트](https://github.com/likelion-project-README/README/wiki/%EC%8A%A4%ED%94%84%EB%9D%BC%EC%9D%B4%ED%8A%B8)
+- 실행 파일 생성 : $ make
+- 서버 파일 실행 : $ ./server [port]   
+- 게임 파일 실행 : $ ./main [path] [port]
+- 순서: 실팽 파일 생성 -> 서버 파일 실행(멀티게임의 경우에만) -> 게임 파일 실행
+- 게임 조작 방법 : 게임 파일 실행 h키를 눌러 도움말 참조
+- 게임 실행 시 주의사항: 한/영 중 영문키인 경우에만 키 입력 가능
+- 버전 및 이슈관리 : Github
+- 협업 툴 : Discord, Github
+- 서버 배포 환경 : Raspberry Pi 4 Model B
 <br>
 
 
@@ -64,11 +63,17 @@
 
 ### 🐶김준형
 
+- **UI**
+    - server 화면에서 게임 접속자 모니터링(접속자 수, 게임방, 매칭 현황 등)
 - **기능**
-    - 페이지 : 홈, 검색, 게시글 작성, 게시글 수정, 게시글 상세, 채팅방
-    - 공통 컴포넌트 : 게시글 템플릿, 버튼
+    - 싱글모드 시, filetered_data에서 랜덤으로 정답 가져오기
+    - 입력한 단어와 정답을 자리별로 비교 후 색깔 배열 renewal
 - **서버**
-    - 유저 검색, 게시글 등록 및 수정, 게시글 상세 확인, 댓글 등록, 팔로워 게시글 불러오기, 좋아요 기능
+    - 전반적인 server 개발
+    - 접속한 이용자들 게임 매칭(thread 이용)
+    - 멀티모드 시, 출제한 문제와 결과 교환 기능(server-clients)
+- **기타**
+    - 데이터 전처리(단모음, 단자음 개수의 합이 6개인 단어만 추출, 분리 후 영문키로 mapping)
 
 <br>
     

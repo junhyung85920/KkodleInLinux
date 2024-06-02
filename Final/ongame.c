@@ -1,9 +1,5 @@
-
-
 #include "drawlib.h"
 
-//  chckRightWord()에 checkColor() 구현함
-// Color checkColor(Word input[], Word answer[]);
 int checkCorrect(Color after[]);
 int checkRightWord(Word input[], Word answer[], Color after[]);
 void initColor(Color after[]);
@@ -208,16 +204,6 @@ int connectToServer(const char *server_ip, int server_port)
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(server_port);
     bcopy((void*)host->h_addr, (void*)&serv_addr.sin_addr, host->h_length);
-
-    /*
-    if (inet_pton(AF_INET, server_ip, &serv_addr.sin_addr) <= 0)
-    {
-        perror("inet_pton");
-        close(sockfd);
-        return -1;
-    }
-    */
-    
 
     if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
     {
@@ -472,7 +458,6 @@ int checkCorrect(Color after[])
             return 0;
         }
     }
-    // printf("correct!\n");
     return 1;
 }
 

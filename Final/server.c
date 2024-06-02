@@ -17,7 +17,6 @@ typedef enum {
 typedef struct {
     int socket;
     int index;
-    int is_first_message;
     int game_num;
 } ClientData;
 
@@ -26,7 +25,6 @@ pthread_mutex_t lock;
 int messages_received[MAX_GAME_NUM];
 Word word_arrays[MAX_GAME_NUM][MAX_PLAYERS][ARRAY_SIZE];
 int int_values[MAX_GAME_NUM][MAX_PLAYERS];
-int is_first_message[MAX_GAME_NUM];
 int current_players = 0;
 
 
@@ -37,7 +35,6 @@ void *handle_client(void *arg) {
     int client_socket = client_data->socket;
     int index = client_data->index;     // index + 1 -> client number
     int opponent;
-    //int first_message = 1;
     int game_num = client_data->game_num;
     free(client_data);
     
@@ -73,7 +70,7 @@ void *handle_client(void *arg) {
             // when two clients send word arrays
             send(client_sockets[index], word_arrays[game_num][opponent], sizeof(word_arrays[game_num][opponent]), 0);
             send(client_sockets[opponent], word_arrays[game_num][index], sizeof(word_arrays[game_num][index]), 0);
-            printf("(room%d) : exchanged infomation ( Client %d to Client %d )\n", game_num, opponent + 1, index + 1);
+            printf("(room%d) : exchanged information ( Client %d to Client %d )\n", game_num, opponent + 1, index + 1);
             
             messages_received[game_num] = 0; // init message count
             memset(word_arrays[game_num][index], 0, sizeof(word_arrays[game_num][index])); // init buffer(index)
@@ -96,7 +93,6 @@ int main(int argc, char* argv[]) {
     // init num of message_received
     for(int i = 0; i < MAX_GAME_NUM; i++){
         messages_received[i] = 0;
-        is_first_message[i] = 2;
     }
 
     // init array of client sockets
@@ -159,7 +155,6 @@ int main(int argc, char* argv[]) {
                 ClientData *client_data = (ClientData *)malloc(sizeof(ClientData));
                 client_data->socket = new_socket;
                 client_data->index = i;
-                client_data->is_first_message = 1;
                 client_data->game_num = ((current_players - 1) / 2) + 1;  // 게임방 번호 부여
                 printf("Client %d connected in (room%d)", i + 1, client_data->game_num);
 
