@@ -1,51 +1,40 @@
 
 
 #include "drawlib.h"
-#include <pthread.h>
 
-// 이거 함수 두개 합칠 수 있을듯여?
 //  chckRightWord()에 checkColor() 구현함
 // Color checkColor(Word input[], Word answer[]);
-int printMenu(int row, int col);
-Word* createAnswer();
-int checkRightWord(Word input[], Word answer[], Color after[]);
 int checkCorrect(Color after[]);
-int cmp(Word input[], char *token);
+int checkRightWord(Word input[], Word answer[], Color after[]);
 void initColor(Color after[]);
-Word inputWord(char c);
-int isWord(char c);
-char getWord(Word c);
+int cmp(Word input[], char *token);
 Word *createAnswer();
 int printMenu(int row, int col);
 Word *makeAnswer();
 void onAnswer();
-
-
 
 // Socket communication functions
 int connectToServer(const char *server_ip, int server_port);
 int sendAnswer(int sockfd, Word *answer);
 int receiveAnswer(int sockfd, Word *answer);
 
-void onGame(char *path)
-{
 
+void onGame(char *path) {
     int menu = 0;
     int opponent_result;
-    menu = printMenu(16, 14);
-
-    Word *answer;
-    Word *opponent_answer;
-    Color after[6] = {RED, RED, RED, RED, RED, RED};
     int count = 0, round = 0;
     int result = -1;
+    int sockfd = -1;
     char c;
+    char converted_result[4];
+    char opponent_converted_result[4];
+    Word *answer;
+    Word *opponent_answer;
     Word w[6];
     Word temp[6] = {D, K, S, S, U, D};
-    int converted_result = 0;
+    Color after[6] = {RED, RED, RED, RED, RED, RED};
 
-    pthread_t tid;
-    int sockfd = -1;
+    menu = printMenu(16, 14);
 
     if (menu == 1)
     { // multi일때
@@ -56,18 +45,20 @@ void onGame(char *path)
             printError("Failed to connect to the server.");
             return;
         }
+        // 기다리는것
         printw("sockfd: %d\n", sockfd);
 
         opponent_answer = makeAnswer();
         sendAnswer(sockfd, opponent_answer);
         receiveAnswer(sockfd, answer);
 
+        
         clear();
         move(25, 40);
         printw("게임 시작");
         refresh();
         sleep(2);
-    }
+        }
     else
     { // single일때
         answer = createAnswer();
@@ -91,7 +82,7 @@ void onGame(char *path)
                         changeColor(after, w, round);
                         if (checkCorrect(after))
                         {
-                            result = round+1;
+                            result = round + 1;
                             break;
                         }
                     }
@@ -125,11 +116,6 @@ void onGame(char *path)
                 {
                     printError("더 이상 입력할 수 없습니다.");
                 }
-                else
-                {
-                    w[count] = inputWord(c);
-                    printWord(w[count], 2 + round * 7, 6 + 13 * count++);
-                }
             }
             else
             {
@@ -150,24 +136,37 @@ void onGame(char *path)
         onSuccess(result);
     }
 
-    converted_result = htonl(result);
-    if (send(sockfd, &converted_result, sizeof(converted_result), 0) < 0)
-    {
+
+    //result 보내고
+    //opponent_result에 값 받기
+
+    sprintf(converted_result, "%d", result);
+
+    if(send(sockfd, &converted_result, sizeof(converted_result), 0) < 0){
         perror("send failed");
     }
-    if (recv(sockfd, &opponent_result, sizeof(opponent_result), 0) < 0)
-    {
+    clear();
+    move(25, 35);
+    printw("상대방이 게임을 진행중입니다.");
+    refresh();
+
+    if(recv(sockfd, &opponent_converted_result, sizeof(opponent_converted_result), 0) < 0){
+        printw("recv failed\n");
         perror("int recv failed");
     }
-    opponent_result = ntohl(opponent_result);
-
+    
+    
+    opponent_result = atoi(opponent_converted_result);
+    
     if (menu == 1)
     {
-        if (opponent_result < 0)
+        if (opponent_result == 0)
         {
             clear();
             move(25, 35);
             printw("상대방은 실패하였습니다.");
+            move(26, 35);
+            printw("opponent result: %d\n", opponent_result);
             refresh();
             getch();
         }
@@ -180,7 +179,7 @@ void onGame(char *path)
             getch();
         }
     }
-
+    
     // close socket
     if (sockfd >= 0)
     {
@@ -189,22 +188,33 @@ void onGame(char *path)
 
     return;
 }
+
 int connectToServer(const char *server_ip, int server_port)
 {
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    struct sockaddr_in server_addr;
-
     if (sockfd < 0)
     {
         perror("socket");
         return -1;
     }
+    struct hostent *host = gethostbyname(server_ip);
+    struct sockaddr_in serv_addr;
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(server_port);
+    bcopy((void*)host->h_addr, (void*)&serv_addr.sin_addr, host->h_length);
 
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(server_port);
-    server_addr.sin_addr.s_addr = inet_addr(server_ip);
+    /*
+    if (inet_pton(AF_INET, server_ip, &serv_addr.sin_addr) <= 0)
+    {
+        perror("inet_pton");
+        close(sockfd);
+        return -1;
+    }
+    */
+    
 
-    if (connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
+    if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
     {
         perror("connect");
         close(sockfd);
@@ -226,7 +236,6 @@ int sendAnswer(int sockfd, Word *answer)
 
 int receiveAnswer(int sockfd, Word *answer)
 {
-    answer = (Word *)malloc(sizeof(Word) * 6);
     if (recv(sockfd, answer, sizeof(Word) * 6, 0) < 0)
     {
         printf("recv failed\n");
@@ -235,8 +244,6 @@ int receiveAnswer(int sockfd, Word *answer)
     }
     return 0;
 }
-
-/////////
 
 int printMenu(int row, int col)
 {
@@ -768,7 +775,7 @@ Word *makeAnswer()
                     }
                     else
                     {
-                        printError("존재하지 않는 단어 입니다.");
+                        printError("존재하지 않는 단어입니다.");
                         deleteRound(round);
                     }
 
@@ -834,9 +841,10 @@ Word *makeAnswer()
     }
 
     clear();
-    move(25, 40);
-    printw("대기중");
+    move(25, 35);
+    printw("상대방을 기다리는 중입니다.");
     refresh();
 
     return w;
 }
+

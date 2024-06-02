@@ -40,7 +40,6 @@ void *handle_client(void *arg) {
     int opponent;
     //int first_message = 1;
     int game_num = client_data->game_num;
-    printf("Client: %d\n", client_data->index + 1);
     free(client_data);
     
     
@@ -51,6 +50,7 @@ void *handle_client(void *arg) {
         opponent = index - 1;
     }
 
+    printf("Client %d vs Client %d\n", index + 1, opponent + 1);
     while (1) {
         Word buffer[ARRAY_SIZE];
         memset(buffer, 0, sizeof(buffer));
@@ -65,36 +65,24 @@ void *handle_client(void *arg) {
             pthread_mutex_unlock(&lock);
             return NULL;
         }
-        printf("Client %d vs Client %d\n", index + 1, opponent + 1);
         pthread_mutex_lock(&lock);
         memcpy(word_arrays[game_num][index], buffer, sizeof(buffer));
         messages_received[game_num]++;
         printf("Received word array from Client %d: ", index + 1);
-        for (int i = 0; i < ARRAY_SIZE; i++) {
-            printf("%d ", word_arrays[game_num][index][i]);
-        }
         printf("\n");
 
         if (messages_received[game_num] == MAX_PLAYERS_PER_GAME) {
             // when two clients send word arrays
             send(client_sockets[index], word_arrays[game_num][opponent], sizeof(word_arrays[game_num][opponent]), 0);
-            printf("Sent word array from Client %d to Client %d\n", opponent + 1, index + 1);
+            printf("exchanged from Client %d to Client %d\n", opponent + 1, index + 1);
             send(client_sockets[opponent], word_arrays[game_num][index], sizeof(word_arrays[game_num][index]), 0);
             printf("Sent word array from Client %d to Client %d\n", index + 1, opponent + 1);
             
             messages_received[game_num] = 0; // init message count
-            memset(word_arrays[game_num][index], 0, sizeof(word_arrays[game_num][index])); // init buffer(word)
-            memset(word_arrays[game_num][opponent], 0, sizeof(word_arrays[game_num][opponent])); // init buffer(word)
+            memset(word_arrays[game_num][index], 0, sizeof(word_arrays[game_num][index])); // init buffer(index)
+            memset(word_arrays[game_num][opponent], 0, sizeof(word_arrays[game_num][opponent])); // init buffer(opponent)
         }
         pthread_mutex_unlock(&lock);
-
-        /**
-         * 먼저 정답을 넘긴 client가 next step 으로 넘어가지 않고 word array로 받기 위해 대기중
-         * 반면 이후에 정답을 넘긴 client는 next step 으로 넘어가서 int array로 받기 위해 대기중
-         * 
-         * 아예 result도 word array로 주고받으면 2명이 접속했을 땐 정상작동
-         * 다중접속시 문제가 발생
-        */
 
     }
 }
