@@ -4,8 +4,16 @@
 CC = gcc
 RM = rm -f
 
+all : server main
+
+server : server.o
+	$(CC) -o server server.o -lpthread
+
 main : main.o draw.o err.o onfail.o ongame.o onhelp.o onstart.o onsuccess.o
 	$(CC) -o main main.o draw.o err.o onfail.o ongame.o onhelp.o onstart.o onsuccess.o -lncursesw
+
+server.o : server.c
+	$(CC) -c server.c
 
 main.o : main.c gamelib.h
 	$(CC) -c main.c
@@ -30,8 +38,6 @@ onstart.o : onstart.c drawlib.h draw.o
 
 onsuccess.o : onsuccess.c drawlib.h draw.o
 	$(CC) -c onsuccess.c
-
-
 
 drawlib.h : gamelib.h
 
