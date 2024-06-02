@@ -6,14 +6,21 @@
 // 이거 함수 두개 합칠 수 있을듯여?
 //  chckRightWord()에 checkColor() 구현함
 // Color checkColor(Word input[], Word answer[]);
-int checkCorrect(Color after[]);
+int printMenu(int row, int col);
+Word* createAnswer();
 int checkRightWord(Word input[], Word answer[], Color after[]);
-void initColor(Color after[]);
+int checkCorrect(Color after[]);
 int cmp(Word input[], char *token);
+void initColor(Color after[]);
+Word inputWord(char c);
+int isWord(char c);
+char getWord(Word c);
 Word *createAnswer();
 int printMenu(int row, int col);
 Word *makeAnswer();
 void onAnswer();
+
+
 
 // Socket communication functions
 int connectToServer(const char *server_ip, int server_port);
