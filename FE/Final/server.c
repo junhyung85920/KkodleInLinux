@@ -27,7 +27,7 @@ pthread_mutex_t lock;
 int messages_received[MAX_GAME_NUM];
 Word word_arrays[MAX_GAME_NUM][MAX_PLAYERS][ARRAY_SIZE];
 int int_values[MAX_GAME_NUM][MAX_PLAYERS];
-//int is_first_message[MAX_GAME_NUM];
+int is_first_message[MAX_GAME_NUM];
 int current_players = 0;
 
 
@@ -38,7 +38,7 @@ void *handle_client(void *arg) {
     int client_socket = client_data->socket;
     int index = client_data->index;     // index + 1 -> client number
     int opponent;
-    int is_first_message = client_data->is_first_message;
+    //int first_message = 1;
     int game_num = client_data->game_num;
     free(client_data);
     
@@ -51,7 +51,7 @@ void *handle_client(void *arg) {
     }
 
     while (1) {
-        if (is_first_message) {
+        if (is_first_message[game_num]) {
             Word buffer[ARRAY_SIZE];
             memset(buffer, 0, sizeof(buffer));
 
@@ -84,10 +84,26 @@ void *handle_client(void *arg) {
                 
                 messages_received[game_num] = 0; // init message count
                 memset(word_arrays[game_num], 0, sizeof(word_arrays[game_num])); // init buffer(word)
-                is_first_message = 0;
                 
             }
             pthread_mutex_unlock(&lock);
+
+            /**
+             * 먼저 정답을 넘긴 client가 next step 으로 넘어가지 않고 word array로 받기 위해 대기중
+             * 반면 이후에 정답을 넘긴 client는 next step 으로 넘어가서 int array로 받기 위해 대기중
+             * 
+             * 아예 result도 word array로 주고받으면 2명이 접속했을 땐 정상작동
+             * 다중접속시 문제가 발생
+            */
+
+            is_first_message[game_num]--;
+            while(is_first_message[game_num] != 0){
+                sleep(1000);
+            }
+            if(is_first_message[game_num] == 0){
+                printf("Client: %d -> goto next message\n", index + 1);
+                continue;
+            }
 
         } else {
             int value;
@@ -133,6 +149,7 @@ int main() {
     // init num of message_received
     for(int i = 0; i < MAX_GAME_NUM; i++){
         messages_received[i] = 0;
+        is_first_message[i] = 2;
     }
 
     // init array of client sockets
@@ -190,9 +207,6 @@ int main() {
             if (client_sockets[i] == 0) {
                 client_sockets[i] = new_socket;
                 printf("Client %d connected", i + 1);
-
-
-
 
                 // client thread 생성
                 pthread_t thread_id;
