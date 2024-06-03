@@ -2,7 +2,8 @@
 
 
 
-![꼬들](https://github.com/junhyung85920/KkodleInLinux/assets/66457807/2ace8116-299b-4fe7-aebf-a79ddb0f52b8)
+[<img src="https://github.com/junhyung85920/KkodleInLinux/assets/66457807/2ace8116-299b-4fe7-aebf-a79ddb0f52b8">](https://youtu.be/pSNus8dTwCk?feature=shared)
+
 
 <br>
 
