@@ -30,7 +30,7 @@
 
 | **김준형** | **장현호** | **조재용** |
 | :------: |  :------: | :------: |
-| [<img src="https://avatars.githubusercontent.com/u/106502312?v=4" height=150 width=150> <br/> @junhyung85920](https://github.com/junhyung85920) | [<img src="https://github.com/junhyung85920/KkodleInLinux/assets/66457807/ee7f7ad5-c853-4db0-83a6-b2dfb91db677" height=150 width=150> <br/> @chozenka](https://github.com/chozenka) | [<img src="https://github.com/junhyung85920/KkodleInLinux/assets/66457807/3fa0fe38-61c0-480e-a2ff-1138a7dde1fe" height=150 width=150> <br/> @WithJo](https://github.com/WithJo) |
+| [<img src="https://github.com/junhyung85920/KkodleInLinux/assets/66457807/0d7be183-eafc-4bad-9fb0-4df7b9c072cf" height=150 width=150> <br/> @junhyung85920](https://github.com/junhyung85920) | [<img src="https://github.com/junhyung85920/KkodleInLinux/assets/66457807/ee7f7ad5-c853-4db0-83a6-b2dfb91db677" height=150 width=150> <br/> @chozenka](https://github.com/chozenka) | [<img src="https://github.com/junhyung85920/KkodleInLinux/assets/66457807/3fa0fe38-61c0-480e-a2ff-1138a7dde1fe" height=150 width=150> <br/> @WithJo](https://github.com/WithJo) |
 
 </div>
 
