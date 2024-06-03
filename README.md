@@ -116,9 +116,9 @@
     
 -  ❌처음 실행시 화면이 깨질때 Ctrl+C 후 다시 실행❌
 
-| 초기화면 |
+| 메인 화면 |
 |----------|
-|![splash](https://user-images.githubusercontent.com/112460466/210172920-aef402ed-5aef-4d4a-94b9-2b7147fd8389.gif)|
+|![tab](https://github.com/junhyung85920/KkodleInLinux/assets/80797496/a2985e16-ef98-4ffb-afd2-bc09972bde8b)|
 
 <br>
 
@@ -126,18 +126,18 @@
 - 게임 이해를 위한 설명이 출력됩니다.
 - 아무 키나 누르면 메인 화면으로 돌아옵니다.
 
-| 회원가입 |
+| 도움 화면 |
 |----------|
-|![join](https://user-images.githubusercontent.com/112460466/210173571-490f5beb-5791-4a4a-8c5e-510cdcb5f1fe.gif)|
+|![tab](https://github.com/junhyung85920/KkodleInLinux/assets/80797496/a08551ec-592b-41e9-a922-37ed86633907)|
 
 <br>
 
 ### [모드 설정 화면]
 - 게임 모드 설정 화면에선 싱글모드(s키), 멀티모드(m키) 중에서 선택할 수 있습니다.
 
-| 프로필 설정 |
+| 모드 설정 |
 |----------|
-|![setProfile](https://user-images.githubusercontent.com/112460466/210173749-2da6c9af-eb93-4eea-9663-1a03e19299ec.gif)|
+|![tab](https://github.com/junhyung85920/KkodleInLinux/assets/80797496/43a7ab7d-9d2f-413f-a000-0e665ad5f63c)|
 
 <br>
 
@@ -146,6 +146,9 @@
 - 멀티 : 상대방에게 출제할 문제를 입력합니다.(존재하는 단어만 입력할 수 있습니다.)
 - 멀티 : 상대방이 문제를 보내지 않았으면 대기화면을 출력하고, 양쪽 다 출제하면 게임을 시작합니다.
 
+| 문제 출제 |
+|----------|
+|![tab](https://github.com/junhyung85920/KkodleInLinux/assets/80797496/480c246e-37a3-4cbc-8728-6cb794bec39f)|
 
 <br>
 
@@ -154,9 +157,9 @@
     - $ ./server [port]
 - 게임 이용자의 멀티 모드 출입 및 게임 현황을 출력합니다.
 
-| 상하단 배너 |
+| 서버 화면 |
 |----------|
-|![tab](https://user-images.githubusercontent.com/112460466/210178028-3185f944-6ac1-468a-94ba-b32cdc5e380e.gif)|
+|![tab](https://github.com/junhyung85920/KkodleInLinux/assets/80797496/a4adf90d-8a63-43a5-80a7-917bf64f015e)|
 
 <br>
 
@@ -165,9 +168,9 @@
 - 입력한 자, 모음이 정답에 없는 경우엔 빨간색, 자리는 다르지만 존재하는 경우엔 노란색, 자리까지 일치하는 경우엔 초록색이 단어에 반영됩니다.
 - 6번의 기회에 걸쳐, 단어를 맞추거나(6칸이 전부 초록색이면) 맞추지 못하는 경우, 성공/실패 화면으로 넘어갑니다.
 
-| 로그인 |
+| 게임 화면 |
 |----------|
-|![login](https://user-images.githubusercontent.com/112460466/210177956-c716414e-01c2-4c1e-b1f7-6562b9b7a857.gif)|
+|![tab](https://github.com/junhyung85920/KkodleInLinux/assets/80797496/ce025db7-ba32-4e82-99be-3b6df37c577a)|
 
 <br>
 
@@ -176,9 +179,9 @@
 - 실패 : "실패"라는 글자와 정답을 출력됩니다.
 - 이후 Enter 키를 누르면, 싱글모드에선 메인화면으로 돌아가고, 멀티모드에선 상대방의 결과가 출력됩니다.
 
-| 로그아웃 |
+| 성공하는 경우 |
 |----------|
-|![logout](https://user-images.githubusercontent.com/112460466/210178009-11225733-7af5-4b8b-aa1c-fe264af01797.gif)|
+|![tab](https://github.com/junhyung85920/KkodleInLinux/assets/80797496/9c1b8bab-3a80-44b6-a0bd-8689dae4a4b8)|
 
 <br>
 
@@ -186,9 +189,9 @@
 - 게임 결과에 따라 실패 또는 성공 화면이 나타납니다.
 - 이후 Enter 키를 누르면, 상대방의 게임이 끝난 경우 상대방의 게임 결과를 출력하고, 그렇지 않으면 대기 화면이 출력됩니다.
 
-| 상하단 배너 |
+| 실패하는 경우 |
 |----------|
-|![tab](https://user-images.githubusercontent.com/112460466/210178028-3185f944-6ac1-468a-94ba-b32cdc5e380e.gif)|
+|![tab](https://github.com/junhyung85920/KkodleInLinux/assets/80797496/705e07b4-8df3-48d5-a25a-a2b81888b7ca)|
 
 <br>
 
