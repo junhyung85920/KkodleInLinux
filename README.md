@@ -1,8 +1,8 @@
 # 🎮 꼬들 In Linux
 
-<img width="543" alt="mockup" src="https://github.com/junhyung85920/KkodleInLinux/assets/66457807/2ace8116-299b-4fe7-aebf-a79ddb0f52b8">
 
 
+![꼬들](https://github.com/junhyung85920/KkodleInLinux/assets/66457807/2ace8116-299b-4fe7-aebf-a79ddb0f52b8)
 
 <br>
 
