@@ -74,6 +74,7 @@
     - 멀티모드 시, 출제한 문제와 결과 교환 기능(server-clients)
 - **기타**
     - 데이터 전처리(단모음, 단자음 개수의 합이 6개인 단어만 추출, 분리 후 영문키로 mapping)
+    - 데이터 출처 : https://kbig.kr/portal/kbig/datacube/niadict.page
 
 <br>
     
