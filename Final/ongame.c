@@ -161,13 +161,11 @@ void onGame(char *path, char *port) {
     
     if (menu == 1)
     {
-        if (opponent_result == -1)
+        if (opponent_result < 0)
         {
             clear();
             move(25, 35);
             printw("상대방은 실패하였습니다.");
-            move(26, 35);
-            printw("opponent result: %d\n", opponent_result);
             refresh();
             getch();
         }
