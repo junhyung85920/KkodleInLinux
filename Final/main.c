@@ -51,7 +51,7 @@ void init(){
     init_pair(RED, COLOR_RED, COLOR_BLACK); // 빨간색 색상 페어 설정
     init_pair(GREEN, COLOR_GREEN, COLOR_BLACK); // 초록색 색상 페어 설정
     init_pair(YELLOW, COLOR_YELLOW, COLOR_BLACK); // 노란색 색상 페어 설정
-    sleep(1000);
+    usleep(10000);
     clear();
     refresh();
 }
