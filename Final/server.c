@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
                 client_data->socket = new_socket;
                 client_data->index = i;
                 client_data->game_num = ((current_players - 1) / 2) + 1;  // 게임방 번호 부여
-                printf("Client %d connected in (Room %d)", i + 1, client_data->game_num);
+                printf("\nClient %d connected in (Room %d)\n", i + 1, client_data->game_num);
 
                 if (pthread_create(&thread_id, NULL, handle_client, (void *)client_data) != 0) {
                     perror("pthread_create");
