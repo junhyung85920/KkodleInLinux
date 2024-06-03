@@ -1,6 +1,7 @@
-# 🎮 Kkodle In Linux
+# 🎮 꼬들 In Linux
 
-![readme_mockup2](https://user-images.githubusercontent.com/112460466/210706312-6a44b60d-a42e-4210-b334-9e5983f70fb3.png)
+<img width="543" alt="mockup" src="https://github.com/junhyung85920/KkodleInLinux/assets/66457807/2ace8116-299b-4fe7-aebf-a79ddb0f52b8">
+
 
 
 <br>
@@ -18,7 +19,7 @@
 
 ## 프로젝트 소개
 
-- **Kkodle In Linux**는 기존의 인기있는 게임인 워들의 한국어 판인 꼬들을 Linux 환경에서 멀티기능을 추가한 게임입니다.
+- **꼬들 In Linux**는 기존의 인기있는 게임인 워들의 한국어 판인 꼬들을 Linux 환경에서 멀티기능을 추가한 게임입니다.
 - 개인으로 꼬들을 즐길 수도 있고, 친구와 같이 즐길 수 있습니다.
 
 
@@ -40,10 +41,10 @@
 
 - Linux OS : ubuntu 20.04 LTS, ubuntu server 20.04.5 LTS
 - IDE : Visual Studio Code
-- VM : multipass 1.13.1
+- VM : multipass 1.13.1, VMware
 - Languages : C(게임 개발), Python(단어 데이터 전처리)
 - Version Control : Github
-- Collaboration Tool : Discord, Github
+- Collaboration Tool : Discord, Github, Slack
 
 <br>
 
