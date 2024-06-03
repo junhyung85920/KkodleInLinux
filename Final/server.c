@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <arpa/inet.h>
 
-#define MAX_PLAYERS 4
+#define MAX_PLAYERS 64
 #define MAX_PLAYERS_PER_GAME 2
 #define MAX_GAME_NUM MAX_PLAYERS / 2
 #define ARRAY_SIZE 6
@@ -51,9 +51,9 @@ void *handle_client(void *arg) {
         memset(buffer, 0, sizeof(buffer));
 
         if (recv(client_socket, buffer, sizeof(buffer), 0) <= 0) {
-            printf("Client %d disconnected\n", index + 1);
+            printf("\nClient %d disconnected\n", index + 1);
             current_players--;
-            printf("current_players: %d\n", current_players);
+            printf("\ncurrent_players: %d\n", current_players);
             close(client_socket);
             pthread_mutex_lock(&lock);
             client_sockets[index] = 0;
@@ -63,14 +63,14 @@ void *handle_client(void *arg) {
         pthread_mutex_lock(&lock);
         memcpy(word_arrays[game_num][index], buffer, sizeof(buffer));
         messages_received[game_num]++;
-        printf("(room%d) : Received word array from Client %d", game_num, index + 1);
+        printf("\n(Room %d) : Received information from Client %d", game_num, index + 1);
         printf("\n");
 
         if (messages_received[game_num] == MAX_PLAYERS_PER_GAME) {
             // when two clients send word arrays
             send(client_sockets[index], word_arrays[game_num][opponent], sizeof(word_arrays[game_num][opponent]), 0);
             send(client_sockets[opponent], word_arrays[game_num][index], sizeof(word_arrays[game_num][index]), 0);
-            printf("(room%d) : exchanged information ( Client %d to Client %d )\n", game_num, opponent + 1, index + 1);
+            printf("\n(Room %d) : exchanged information ( Client %d & Client %d )\n", game_num, opponent + 1, index + 1);
             
             messages_received[game_num] = 0; // init message count
             memset(word_arrays[game_num][index], 0, sizeof(word_arrays[game_num][index])); // init buffer(index)
@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
         }
         pthread_mutex_lock(&lock);
         current_players++;
-        printf("current_players: %d\n", current_players);
+        printf("\ncurrent_players: %d\n", current_players);
 
         // add new socket to array of client sockets if not full
         int i, j;
@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
                 client_data->socket = new_socket;
                 client_data->index = i;
                 client_data->game_num = ((current_players - 1) / 2) + 1;  // 게임방 번호 부여
-                printf("Client %d connected in (room%d)", i + 1, client_data->game_num);
+                printf("Client %d connected in (Room %d)", i + 1, client_data->game_num);
 
                 if (pthread_create(&thread_id, NULL, handle_client, (void *)client_data) != 0) {
                     perror("pthread_create");

@@ -10,10 +10,6 @@
 void init();
 
 int main(int argc, char* argv[]) {
-    if(argc != 3){
-        printf("Usage : %s [path] [port]\n", argv[0]);
-        return 0;
-    }
     
     init();
     int m = 1;
