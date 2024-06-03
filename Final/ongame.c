@@ -161,7 +161,7 @@ void onGame(char *path, char *port) {
     
     if (menu == 1)
     {
-        if (opponent_result == 0)
+        if (opponent_result == -1)
         {
             clear();
             move(25, 35);
